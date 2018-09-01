@@ -24,5 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(DearApi::class, DearApi::class);
     }
 }

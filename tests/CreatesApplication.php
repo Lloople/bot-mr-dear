@@ -32,6 +32,7 @@ trait CreatesApplication
 
         Hash::driver('bcrypt')->setRounds(4);
 
+        $app->bind(DearApi::class, \Tests\Fakes\DearApi::class);
 
         return $app;
     }

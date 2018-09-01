@@ -1,0 +1,94 @@
+{
+  "data": [
+    {
+      "id": 9999,
+      "url": "https://example.com",
+      "sort_url": "example.com",
+      "team_id": 8888,
+      "latest_run_date": "2018-09-01 19:32:00",
+      "summarized_check_result": "succeeded",
+      "uses_https": true,
+      "checks": [
+        {
+          "id": 17438,
+          "type": "uptime",
+          "enabled": true,
+          "latest_run_ended_at": "2018-09-01 19:32:00",
+          "latests_run_result": "succeeded"
+        },
+        {
+          "id": 17439,
+          "type": "broken_links",
+          "enabled": true,
+          "latest_run_ended_at": "2018-09-01 17:52:42",
+          "latests_run_result": "succeeded"
+        },
+        {
+          "id": 17440,
+          "type": "mixed_content",
+          "enabled": true,
+          "latest_run_ended_at": "2018-09-01 17:52:42",
+          "latests_run_result": "succeeded"
+        },
+        {
+          "id": 17441,
+          "type": "certificate_health",
+          "enabled": true,
+          "latest_run_ended_at": "2018-09-01 19:29:53",
+          "latests_run_result": "succeeded"
+        },
+        {
+          "id": 17442,
+          "type": "certificate_transparency",
+          "enabled": true,
+          "latest_run_ended_at": null,
+          "latests_run_result": null
+        }
+      ],
+      "created_at": "2018-09-01 17:52:20",
+      "updated_at": "2018-09-01 17:56:54"
+    },
+    {
+      "id": 9998,
+      "url": "http://failed.example.com",
+      "sort_url": "failed.example.com",
+      "team_id": 8888,
+      "latest_run_date": "2018-09-01 20:23:20",
+      "summarized_check_result": "failed",
+      "uses_https": false,
+      "checks": [
+        {
+          "id": 17443,
+          "type": "uptime",
+          "enabled": true,
+          "latest_run_ended_at": "2018-09-01 20:23:20",
+          "latests_run_result": "failed"
+        },
+        {
+          "id": 17444,
+          "type": "broken_links",
+          "enabled": true,
+          "latest_run_ended_at": "2018-09-01 20:23:20",
+          "latests_run_result": "succeeded"
+        }
+      ],
+      "created_at": "2018-09-01 20:23:16",
+      "updated_at": "2018-09-01 20:23:16"
+    }
+  ],
+  "links": {
+    "first": "https://ohdear.app/api/sites?page%5Bsize%5D=200&page%5Bnumber%5D=1",
+    "last": "https://ohdear.app/api/sites?page%5Bsize%5D=200&page%5Bnumber%5D=1",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "last_page": 1,
+    "path": "https://ohdear.app/api/sites",
+    "per_page": 200,
+    "to": 1,
+    "total": 1
+  }
+}
