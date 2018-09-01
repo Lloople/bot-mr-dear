@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\OhDear\Services\DearApi;
-use Tests\Fakes\DearApiEmpty;
+use App\OhDear\Services\OhDear;
+use Tests\Fakes\OhDearEmpty;
 use Tests\TestCase;
 
 class SitesTest extends TestCase
@@ -19,7 +19,7 @@ class SitesTest extends TestCase
     /** @test */
     public function can_say_there_are_no_sites()
     {
-        $this->app->bind(DearApi::class, DearApiEmpty::class);
+        $this->app->bind(OhDear::class, OhDearEmpty::class);
 
         $this->bot->receives('/sites')
             ->assertReply('There are no sites on your account.')

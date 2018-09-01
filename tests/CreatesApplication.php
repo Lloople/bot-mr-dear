@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use App\OhDear\Services\DearApi;
+use App\OhDear\Services\OhDear;
 use Illuminate\Support\Facades\Hash;
 use BotMan\Studio\Testing\BotManTester;
 use BotMan\BotMan\Drivers\DriverManager;
@@ -32,7 +32,7 @@ trait CreatesApplication
 
         Hash::driver('bcrypt')->setRounds(4);
 
-        $app->bind(DearApi::class, \Tests\Fakes\DearApi::class);
+        $app->bind(OhDear::class, \Tests\Fakes\OhDear::class);
 
         return $app;
     }

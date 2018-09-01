@@ -16,7 +16,8 @@
         "botman/tinker": "~1.0",
         "fideloper/proxy": "~4.0",
         "laravel/framework": "5.6.*",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "ohdearapp/ohdear-php-sdk": "^1.2"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.2",

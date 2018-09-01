@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\OhDear\Services\DearApi;
+use App\OhDear\Services\OhDear;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(DearApi::class, DearApi::class);
+        $this->app->bind(OhDear::class, OhDear::class);
     }
 }

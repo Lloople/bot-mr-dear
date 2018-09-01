@@ -29,7 +29,7 @@ class ListController extends Controller
     {
         $bot->types();
 
-        $sites = $this->dear->getSitesList();
+        $sites = $this->dear->getSites();
 
         if (! $sites->count()) {
             $bot->reply('There are no sites on your account.');
