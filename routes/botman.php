@@ -1,0 +1,5 @@
+<?php
+
+$botman = resolve('botman');
+
+
