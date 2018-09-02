@@ -39,6 +39,6 @@ class ShowController extends Controller
         }
 
         $bot->reply($site->getResume());
-        // TODO: Add more information to the `show` method, and also allow searching by ID
+        $bot->reply($site->getInformation());
     }
 }
