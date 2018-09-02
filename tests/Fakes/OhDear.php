@@ -35,7 +35,7 @@ class OhDear extends \App\OhDear\Services\OhDear
         return new Site($siteData, $this);
     }
 
-    public function getSiteByUrl(string $url): ?Site
+    public function findSiteByUrl(string $url): ?Site
     {
         return $this->sites()->first(function (Site $site) use ($url) {
             return $site->url === $url;

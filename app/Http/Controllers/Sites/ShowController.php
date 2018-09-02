@@ -30,7 +30,7 @@ class ShowController extends Controller
     {
         $bot->types();
 
-        $site = $this->dear->getSiteByUrl($url);
+        $site = $this->dear->findSiteByUrl($url);
 
         if (! $site) {
             $bot->reply('You\'re not currently monitoring this site. Would you like to?');

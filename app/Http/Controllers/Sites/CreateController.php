@@ -30,7 +30,7 @@ class CreateController extends Controller
     {
         $bot->types();
 
-        if ($this->dear->getSiteByUrl($url)) {
+        if ($this->dear->findSiteByUrl($url)) {
             $bot->reply('You\'re already monitoring that url 😅');
             return;
         }

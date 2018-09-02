@@ -35,7 +35,13 @@ class OhDear
         return new Site($site, $this);
     }
 
-    public function getSiteByUrl(string $url): ?Site
+    /**
+     * @param string $url
+     *
+     * @return \App\OhDear\Site|null
+     * @throws \App\Exceptions\InvalidUrlException
+     */
+    public function findSiteByUrl(string $url): ?Site
     {
         try {
 
