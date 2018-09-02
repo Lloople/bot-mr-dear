@@ -6,6 +6,8 @@ use App\OhDear\Services\OhDear;
 use App\OhDear\Site;
 use BotMan\BotMan\Messages\Conversations\Conversation;
 use BotMan\BotMan\Messages\Incoming\Answer;
+use BotMan\BotMan\Messages\Outgoing\Actions\Button;
+use BotMan\BotMan\Messages\Outgoing\Question;
 
 class SiteDestroyConversation extends Conversation
 {
@@ -34,7 +36,7 @@ class SiteDestroyConversation extends Conversation
 
     public function askFirstConfirmation()
     {
-        $this->ask(self::WARNING_1, function (Answer $answer) {
+        $this->ask($this->getQuestion(self::WARNING_1), function (Answer $answer) {
 
             $nextStep = $answer->isInteractiveMessageReply()
                 ? $answer->getValue()
@@ -51,9 +53,19 @@ class SiteDestroyConversation extends Conversation
         });
     }
 
+    private function getQuestion(string $message): Question
+    {
+        return Question::create($message)
+            ->fallback('Unable to delete the site, please try again later.')
+            ->addButtons([
+                Button::create('Yes')->value(true),
+                Button::create('No')->value(false),
+            ]);
+    }
+
     public function askSecondConfirmation()
     {
-        $this->ask(self::WARNING_2, function (Answer $answer) {
+        $this->ask($this->getQuestion(self::WARNING_2), function (Answer $answer) {
 
             $nextStep = $answer->isInteractiveMessageReply()
                 ? $answer->getValue()

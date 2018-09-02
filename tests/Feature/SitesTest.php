@@ -61,9 +61,9 @@ class SitesTest extends TestCase
         $this->assertNotNull(app(OhDear::class)->findSiteByUrl('https://example.com'));
 
         $this->bot->receives('/deletesite https://example.com')
-            ->assertReply('⚠️ Are you sure you want to stop monitoring this site? All history data will be lost and this step cannot be undone.')
+            ->assertQuestion('⚠️ Are you sure you want to stop monitoring this site? All history data will be lost and this step cannot be undone.')
             ->receivesInteractiveMessage(true)
-            ->assertReply('I\'ll proceed to delete the site *https://example.com*. Are you totally sure you want to continue?')
+            ->assertQuestion('I\'ll proceed to delete the site *https://example.com*. Are you totally sure you want to continue?')
             ->receivesInteractiveMessage(true)
             ->assertReply('I deleted the site https://example.com. You\'re no longer monitoring it.');
 
