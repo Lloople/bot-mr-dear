@@ -3,11 +3,14 @@
 namespace Tests\Feature;
 
 use App\OhDear\Services\OhDear;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Fakes\OhDearEmpty;
 use Tests\TestCase;
 
 class SitesTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     public function can_show_list_of_sites()
     {

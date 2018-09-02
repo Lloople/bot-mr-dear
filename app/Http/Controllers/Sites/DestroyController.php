@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Sites;
 
 use App\Conversations\SiteDestroyConversation;
-use App\Exceptions\InvalidUrlException;
 use App\Http\Controllers\Controller;
 use App\OhDear\Services\OhDear;
 use BotMan\BotMan\BotMan;
@@ -26,6 +25,7 @@ class DestroyController extends Controller
      * @param string $url
      *
      * @return void
+     * @throws \App\Exceptions\InvalidUrlException
      */
     public function __invoke(BotMan $bot, string $url)
     {

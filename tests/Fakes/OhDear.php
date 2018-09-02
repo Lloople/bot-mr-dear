@@ -13,8 +13,6 @@ class OhDear extends \App\OhDear\Services\OhDear
 
     public function __construct()
     {
-        parent::__construct();
-
         $this->sites = $this->collect($this->getFakeSites(), Site::class);
     }
 

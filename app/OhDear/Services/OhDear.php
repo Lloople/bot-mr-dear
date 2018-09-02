@@ -12,7 +12,7 @@ class OhDear
 
     public function __construct()
     {
-        $token = ''; // TODO: Get this token from the configuration set by the user.
+        $token = auth()->user()->getToken();
 
         $this->ohDear = new \OhDear\PhpSdk\OhDear($token, null);
     }
