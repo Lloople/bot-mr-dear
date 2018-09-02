@@ -3,15 +3,17 @@
 namespace Tests\Fakes;
 
 use App\OhDear\Site;
+use Illuminate\Support\Collection;
 
-class OhDearEmpty extends \App\OhDear\Services\OhDear
+class OhDearEmpty extends OhDear
 {
 
-    public function getSites()
+    public function sites(): Collection
     {
         return $this->collect(
             [],
             Site::class
         );
     }
+
 }

@@ -7,7 +7,7 @@ use App\OhDear\Services\OhDear;
 use App\OhDear\Site;
 use BotMan\BotMan\BotMan;
 
-class ListController extends Controller
+class IndexController extends Controller
 {
 
     /** @var \App\OhDear\Services\OhDear */
@@ -29,7 +29,7 @@ class ListController extends Controller
     {
         $bot->types();
 
-        $sites = $this->dear->getSites();
+        $sites = $this->dear->sites();
 
         if (! $sites->count()) {
             $bot->reply('There are no sites on your account.');
@@ -41,6 +41,5 @@ class ListController extends Controller
         $sites->each(function (Site $site) use ($bot) {
            $bot->reply($site->getResume());
         });
-
     }
 }
