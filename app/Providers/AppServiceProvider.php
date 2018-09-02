@@ -24,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(OhDear::class, OhDear::class);
+        $this->app->singleton(OhDear::class, OhDear::class);
     }
 }

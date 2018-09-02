@@ -32,7 +32,7 @@ trait CreatesApplication
 
         Hash::driver('bcrypt')->setRounds(4);
 
-        $app->bind(OhDear::class, \Tests\Fakes\OhDear::class);
+        $app->singleton(OhDear::class, \Tests\Fakes\OhDear::class);
 
         return $app;
     }
