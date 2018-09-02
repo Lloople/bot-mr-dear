@@ -54,4 +54,19 @@ class SitesTest extends TestCase
             ->assertReply('You\'re not currently monitoring this site. Would you like to?')
             ->assertReply('/newsite https://new.example.com');
     }
+
+    /** @test */
+    public function can_delete_a_site()
+    {
+        $this->assertNotNull(app(OhDear::class)->findSiteByUrl('https://example.com'));
+
+        $this->bot->receives('/deletesite https://example.com')
+            ->assertReply('⚠️ Are you sure you want to stop monitoring this site? All history data will be lost and this step cannot be undone.')
+            ->receivesInteractiveMessage(true)
+            ->assertReply('I\'ll proceed to delete the site *https://example.com*. Are you totally sure you want to continue?')
+            ->receivesInteractiveMessage(true)
+            ->assertReply('I deleted the site https://example.com. You\'re no longer monitoring it.');
+
+        $this->assertNull(app(OhDear::class)->findSiteByUrl('https://example.com'));
+    }
 }

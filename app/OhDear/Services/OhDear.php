@@ -54,6 +54,11 @@ class OhDear
         }
     }
 
+    public function deleteSite($siteId)
+    {
+        return $this->ohDear->delete("sites/{$siteId}");
+    }
+
     public function collect($collection, $class)
     {
         return collect($collection)->map(function ($attributes) use ($class) {

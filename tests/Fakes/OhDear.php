@@ -8,19 +8,24 @@ use Illuminate\Support\Collection;
 class OhDear extends \App\OhDear\Services\OhDear
 {
 
+    /** @var Collection */
+    private $sites;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->sites = $this->collect($this->getFakeSites(), Site::class);
+    }
+
     private function getFakeSites()
     {
-        return json_decode(
-                   file_get_contents(
-                       base_path('tests/Fakes/responses/sites_list.json')
-                   ),
-                   true
-               )['data'];
+        return json_decode(file_get_contents(base_path('tests/Fakes/responses/sites_list.json')),true)['data'];
     }
 
     public function sites(): Collection
     {
-        return $this->collect($this->getFakeSites(), Site::class);
+        return $this->sites;
     }
 
     public function createSite(string $url): Site
@@ -37,8 +42,17 @@ class OhDear extends \App\OhDear\Services\OhDear
 
     public function findSiteByUrl(string $url): ?Site
     {
-        return $this->sites()->first(function (Site $site) use ($url) {
+        return $this->sites->first(function (Site $site) use ($url) {
             return $site->url === $url;
         }, null);
+    }
+
+    public function deleteSite($siteId)
+    {
+        $this->sites = $this->sites->reject(function (Site $site) use ($siteId) {
+            return $site->id === $siteId;
+        });
+
+        return ! $this->sites->firstWhere('id', $siteId);
     }
 }

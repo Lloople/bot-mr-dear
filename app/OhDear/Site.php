@@ -38,4 +38,9 @@ class Site extends \OhDear\PhpSdk\Resources\Site
     {
         return $this->summarizedCheckResult === 'succeeded';
     }
+
+    public function delete()
+    {
+        return $this->ohDear->deleteSite($this->id);
+    }
 }
