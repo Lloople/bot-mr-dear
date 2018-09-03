@@ -10,6 +10,9 @@ use OhDear\PhpSdk\Exceptions\NotFoundException;
 class OhDear
 {
 
+    /** @var \OhDear\PhpSdk\OhDear */
+    private $ohDear;
+
     public function __construct()
     {
         $token = auth()->user()->getToken();
@@ -39,13 +42,18 @@ class OhDear
      * @param string $url
      *
      * @return \App\OhDear\Site|null
-     * @throws \App\Exceptions\InvalidUrlException
      */
     public function findSiteByUrl(string $url): ?Site
     {
         try {
 
-            return $this->ohDear->get("sites/url/{$this->validatedUrl($url)}");
+            if (! Str::isValidUrl($url)) {
+                return $this->ohDear->sites()->first(function (Site $site) use ($url) {
+                    return stripos($site->url, $url) !== false;
+                }, function () { throw new NotFoundException(); });
+            }
+
+            return $this->ohDear->get("sites/url/{$url}");
 
         } catch (NotFoundException $e) {
 
@@ -74,9 +82,7 @@ class OhDear
      */
     protected function validatedUrl(string $url)
     {
-        $regex = '/(https?:\/\/www\.|https?:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?/';
-
-        if (! preg_match($regex, $url)) {
+        if (! Str::isValidUrl($url)) {
             throw new InvalidUrlException;
         }
 

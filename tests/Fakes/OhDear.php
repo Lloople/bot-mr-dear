@@ -18,7 +18,7 @@ class OhDear extends \App\OhDear\Services\OhDear
 
     private function getFakeSites()
     {
-        return json_decode(file_get_contents(base_path('tests/Fakes/responses/sites_list.json')),true)['data'];
+        return json_decode(file_get_contents(base_path('tests/Fakes/responses/sites_list.json')), true)['data'];
     }
 
     public function sites(): Collection
@@ -41,7 +41,7 @@ class OhDear extends \App\OhDear\Services\OhDear
     public function findSiteByUrl(string $url): ?Site
     {
         return $this->sites->first(function (Site $site) use ($url) {
-            return $site->url === $url;
+            return stripos($site->url, $url) !== false;
         }, null);
     }
 

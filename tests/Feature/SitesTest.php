@@ -51,6 +51,13 @@ class SitesTest extends TestCase
     }
 
     /** @test */
+    public function can_show_a_site_by_domain()
+    {
+        $this->bot->receives('/site example')
+            ->assertReply('✅ example.com - site is up! 💪');
+    }
+
+    /** @test */
     public function can_display_a_message_with_missing_site()
     {
         $this->bot->receives('/site https://new.example.com')

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Sites;
 
-use App\Exceptions\InvalidUrlException;
 use App\Http\Controllers\Controller;
 use App\OhDear\Services\OhDear;
 use BotMan\BotMan\BotMan;
