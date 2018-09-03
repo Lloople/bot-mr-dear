@@ -13,7 +13,6 @@ class StoreController extends Controller
      * Handle the incoming request.
      *
      * @param \BotMan\BotMan\BotMan $bot
-     * @param string $url
      *
      * @return void
      */

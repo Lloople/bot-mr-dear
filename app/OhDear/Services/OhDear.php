@@ -3,6 +3,8 @@
 namespace App\OhDear\Services;
 
 use App\Exceptions\InvalidUrlException;
+use App\Helpers\Str;
+use App\OhDear\Downtime;
 use App\OhDear\Site;
 use Illuminate\Support\Collection;
 use OhDear\PhpSdk\Exceptions\NotFoundException;
@@ -65,6 +67,11 @@ class OhDear
     public function deleteSite($siteId)
     {
         return $this->ohDear->delete("sites/{$siteId}");
+    }
+
+    public function getSiteDowntime($siteId)
+    {
+        return $this->collect($this->ohDear->get("sites/{$siteId}/downtime"), Downtime::class);
     }
 
     public function collect($collection, $class)

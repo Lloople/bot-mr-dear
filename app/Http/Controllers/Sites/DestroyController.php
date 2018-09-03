@@ -25,7 +25,6 @@ class DestroyController extends Controller
      * @param string $url
      *
      * @return void
-     * @throws \App\Exceptions\InvalidUrlException
      */
     public function __invoke(BotMan $bot, string $url)
     {

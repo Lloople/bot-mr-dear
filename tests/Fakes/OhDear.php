@@ -2,6 +2,7 @@
 
 namespace Tests\Fakes;
 
+use App\OhDear\Downtime;
 use App\OhDear\Site;
 use Illuminate\Support\Collection;
 
@@ -52,5 +53,65 @@ class OhDear extends \App\OhDear\Services\OhDear
         });
 
         return ! $this->sites->firstWhere('id', $siteId);
+    }
+
+    public function getSiteDowntime($siteId)
+    {
+        $downtimes = [
+            '1111' => [
+                [
+                    'started_at' => now()->subDay()->subMonths(3)->format('Y-m-d H:i:s'),
+                    'ended_at' => now()->subDay()->subMonths(3)->addHour()->format('Y-m-d H:i:s'),
+                ],
+                [
+                    'started_at' => now()->subDay()->subMonths(5)->format('Y-m-d H:i:s'),
+                    'ended_at' => now()->subDay()->subMonths(5)->addHour()->format('Y-m-d H:i:s'),
+                ],
+
+            ],
+            '2222' => [
+                [
+                    'started_at' => now()->subDays(22)->format('Y-m-d H:i:s'),
+                    'ended_at' => now()->subDays(22)->addHour()->format('Y-m-d H:i:s'),
+                ],
+                [
+                    'started_at' => now()->subDays(28)->format('Y-m-d H:i:s'),
+                    'ended_at' => now()->subDays(28)->addHour()->format('Y-m-d H:i:s'),
+                ],
+            ],
+            '3333' => [
+                [
+                    'started_at' => now()->subDays(4)->format('Y-m-d H:i:s'),
+                    'ended_at' => now()->subDays(4)->addHour()->format('Y-m-d H:i:s'),
+                ],
+                [
+                    'started_at' => now()->subDays(7)->format('Y-m-d H:i:s'),
+                    'ended_at' => now()->subDays(7)->addHour()->format('Y-m-d H:i:s'),
+                ],
+            ],
+            '4444' => [
+                [
+                    'started_at' => now()->subHours(8)->format('Y-m-d H:i:s'),
+                    'ended_at' => now()->subHours(7)->format('Y-m-d H:i:s'),
+                ],
+                [
+                    'started_at' => now()->subHours(15)->format('Y-m-d H:i:s'),
+                    'ended_at' => now()->subHours(14)->format('Y-m-d H:i:s'),
+                ],
+
+            ],
+            '5555' => [
+                [
+                    'started_at' => now()->subMinutes(34)->subMonth()->format('Y-m-d H:i:s'),
+                    'ended_at' => now()->subMinutes(30)->format('Y-m-d H:i:s'),
+                ],
+                [
+                    'started_at' => now()->subMinutes(55)->subMonth()->format('Y-m-d H:i:s'),
+                    'ended_at' => now()->subMinutes(54)->format('Y-m-d H:i:s'),
+                ],
+            ],
+        ];
+
+        return $this->collect(json_decode(json_encode($downtimes[$siteId]), true), Downtime::class);
     }
 }
