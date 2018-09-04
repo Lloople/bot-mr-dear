@@ -74,6 +74,11 @@ class OhDear
         return $this->collect($this->ohDear->get("sites/{$siteId}/downtime"), Downtime::class);
     }
 
+    public function getSiteUptime($siteId)
+    {
+        return $this->collect($this->ohDear->get("sites/{$siteId}/uptime"), Uptime::class);
+    }
+
     public function collect($collection, $class)
     {
         return collect($collection)->map(function ($attributes) use ($class) {

@@ -12,3 +12,5 @@ $botman->hears('/site (.*[^\s])', \App\Http\Controllers\Sites\ShowController::cl
 $botman->hears('/deletesite (.*[^\s])', \App\Http\Controllers\Sites\DestroyController::class);
 
 $botman->hears('/downtime (.*[^\s])', \App\Http\Controllers\Downtime\ShowController::class);
+
+$botman->hears('/uptime (.*[^\s])', \App\Http\Controllers\Uptime\ShowController::class);
