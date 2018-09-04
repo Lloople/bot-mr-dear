@@ -59,7 +59,7 @@ class ShowController extends Controller
 
         $downtime->each(function (Downtime $downtime) use ($bot) {
 
-            $bot->reply("Your website was down for {$downtime->getDowntime()} on {$downtime->startedAt->format('D, F d, Y')}");
+            $bot->reply("Your website was down for {$downtime->getDowntime()} on {$downtime->startedAt}");
         });
 
     }
@@ -72,6 +72,6 @@ class ShowController extends Controller
             }
         }
 
-        return self::INTERVALS_EMOJIS['seconds'];
+        return '😱';
     }
 }
