@@ -1,3 +1,5 @@
+<p align="center"><img height="188" width="198" src="https://raw.githubusercontent.com/Lloople/bot-mr-dear/master/public/img/ohdear_avatar.png"></p>
+
 <h1 align="center">Mr. Dear</h1>
 
 I'm here to help you manage your sites on [Oh Dear! App](https://ohdear.app) by chat. Also I can text you if something is going wrong (Let's hope it'll be no need to 😉)
