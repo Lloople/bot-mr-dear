@@ -49,7 +49,7 @@ class OhDear
     {
         try {
 
-            if (! Str::isValidUrl($url)) {
+            if (! Str::validate_url($url)) {
                 return $this->ohDear->sites()->first(function (Site $site) use ($url) {
                     return stripos($site->url, $url) !== false;
                 }, function () { throw new NotFoundException(); });
@@ -89,7 +89,7 @@ class OhDear
      */
     protected function validatedUrl(string $url)
     {
-        if (! Str::isValidUrl($url)) {
+        if (! Str::validate_url($url)) {
             throw new InvalidUrlException;
         }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Downtime;
 
 use App\Helpers\Str;
 use App\Http\Controllers\Controller;
+use App\OhDear\Downtime;
 use App\OhDear\Services\OhDear;
 use BotMan\BotMan\BotMan;
 
@@ -14,12 +15,12 @@ class ShowController extends Controller
     protected $dear;
 
     const INTERVALS_EMOJIS = [
-        'months' => '🎉',
-        'weeks' => '🙌',
-        'days' => '👍',
-        'hours' => '😕',
-        'minutes' => '😞',
-        'seconds' => '😱'
+        'month' => '🎉',
+        'week' => '🙌',
+        'day' => '👍',
+        'hour' => '😕',
+        'minute' => '😞',
+        'second' => '😱'
     ];
 
     public function __construct(OhDear $dear)
@@ -43,7 +44,7 @@ class ShowController extends Controller
 
         if (! $site) {
             $bot->reply('You\'re not currently monitoring this site. Would you like to?');
-            if (Str::isValidUrl($url)) {
+            if (Str::validate_url($url)) {
                 $bot->reply("/newsite {$url}");
             }
 
@@ -52,14 +53,25 @@ class ShowController extends Controller
 
         $downtime = $this->dear->getSiteDowntime($site->id);
 
-        $elapsed = Str::getElapsedTime($downtime->first()->endedAt);
+        $elapsed = Str::elapsed_time_greatest($downtime->first()->endedAt);
 
-        $bot->reply("The last time your site was down was {$elapsed['diff']} {$elapsed['interval']} ago {$this->getIntervalEmoji($elapsed['interval'])}");
+        $bot->reply("The last time your site was down was {$elapsed} ago {$this->getIntervalEmoji($elapsed)}");
+
+        $downtime->each(function (Downtime $downtime) use ($bot) {
+
+            $bot->reply("Your website was down for {$downtime->getDowntime()} on {$downtime->startedAt->format('D, F d, Y')}");
+        });
 
     }
 
     private function getIntervalEmoji($interval)
     {
-        return self::INTERVALS_EMOJIS[$interval];
+        foreach (self::INTERVALS_EMOJIS as $key => $emoji) {
+            if (stripos($interval, $key) !== false) {
+                return $emoji;
+            }
+        }
+
+        return self::INTERVALS_EMOJIS['seconds'];
     }
 }
