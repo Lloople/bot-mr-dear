@@ -2,6 +2,7 @@
 
 namespace Tests\Fakes;
 
+use App\OhDear\BrokenLink;
 use App\OhDear\Downtime;
 use App\OhDear\Site;
 use App\OhDear\Uptime;
@@ -159,7 +160,15 @@ class OhDear extends \App\OhDear\Services\OhDear
                     'datetime' => now()->subHours(15)->format('Y-m-d H:i:s'),
                     'uptime_percentage' => 90,
                 ],
+    }
 
+    public function getBrokenLinks($siteId)
+    {
+        $brokenLinks = [
+            [
+                'crawledUrl' => 'https://example.com/broken',
+                'statusCode' => 404,
+                'foundOnUrl' => 'https://example.com',
             ],
             '5555' => [
                 [
@@ -170,9 +179,14 @@ class OhDear extends \App\OhDear\Services\OhDear
                     'datetime' => now()->subMinutes(55)->subMonth()->format('Y-m-d H:i:s'),
                     'uptime_percentage' => 90,
                 ],
+            [
+                'crawledUrl' => 'https://example.com/backend',
+                'statusCode' => 403,
+                'foundOnUrl' => 'https://example.com',
             ],
         ];
 
         return $this->collect(json_decode(json_encode($uptimes[$siteId]), true), Uptime::class);
+        return $this->collect($brokenLinks, BrokenLink::class);
     }
 }

@@ -4,6 +4,7 @@ namespace App\OhDear\Services;
 
 use App\Exceptions\InvalidUrlException;
 use App\Helpers\Str;
+use App\OhDear\BrokenLink;
 use App\OhDear\Downtime;
 use App\OhDear\Site;
 use App\OhDear\Uptime;
@@ -78,6 +79,11 @@ class OhDear
     public function getSiteUptime($siteId)
     {
         return $this->collect($this->ohDear->get("sites/{$siteId}/uptime{$this->getDefaultStartedEndedFilter()}"), Uptime::class);
+    }
+
+    public function getBrokenLinks($siteId)
+    {
+        return $this->collect($this->ohDear->get("broken-links/{$siteId}"), BrokenLink::class);
     }
 
     public function collect($collection, $class)
