@@ -2,13 +2,24 @@
 
 namespace Tests\Feature;
 
+use App\OhDear\Services\OhDear;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Fakes\OhDearEmpty;
 use Tests\TestCase;
 
 class DowntimeTest extends TestCase
 {
 
     use RefreshDatabase;
+
+    /** @test */
+    public function can_see_perfect_uptime_message()
+    {
+        $this->app->bind(OhDear::class, OhDearEmpty::class);
+
+        $this->bot->receives('/downtime https://months.example.com')
+            ->assertReply('Your site was up all the time during this period! 🎉');
+    }
 
     /** @test */
     public function can_see_sites_downtime_in_months()

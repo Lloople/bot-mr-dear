@@ -53,6 +53,12 @@ class ShowController extends Controller
 
         $downtime = $this->dear->getSiteDowntime($site->id);
 
+        if ($downtime->isEmpty()) {
+            $bot->reply('Your site was up all the time during this period! 🎉');
+
+            return;
+        }
+
         $elapsed = Str::elapsed_time_greatest($downtime->first()->endedAt);
 
         $bot->reply("The last time your site was down was {$elapsed} ago {$this->getIntervalEmoji($elapsed)}");

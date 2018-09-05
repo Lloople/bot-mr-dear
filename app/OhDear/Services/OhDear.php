@@ -6,6 +6,7 @@ use App\Exceptions\InvalidUrlException;
 use App\Helpers\Str;
 use App\OhDear\Downtime;
 use App\OhDear\Site;
+use App\OhDear\Uptime;
 use Illuminate\Support\Collection;
 use OhDear\PhpSdk\Exceptions\NotFoundException;
 
@@ -71,12 +72,12 @@ class OhDear
 
     public function getSiteDowntime($siteId)
     {
-        return $this->collect($this->ohDear->get("sites/{$siteId}/downtime"), Downtime::class);
+        return $this->collect($this->ohDear->get("sites/{$siteId}/downtime{$this->getDefaultStartedEndedFilter()}"), Downtime::class);
     }
 
     public function getSiteUptime($siteId)
     {
-        return $this->collect($this->ohDear->get("sites/{$siteId}/uptime"), Uptime::class);
+        return $this->collect($this->ohDear->get("sites/{$siteId}/uptime{$this->getDefaultStartedEndedFilter()}"), Uptime::class);
     }
 
     public function collect($collection, $class)
@@ -99,5 +100,10 @@ class OhDear
         }
 
         return $url;
+    }
+
+    private function getDefaultStartedEndedFilter()
+    {
+        return "?filter[started_at]=".now()->subDays(30)->format('YmdHis')."&filter[ended_at]=".date('YmdHis');
     }
 }

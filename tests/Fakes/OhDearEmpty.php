@@ -16,4 +16,9 @@ class OhDearEmpty extends OhDear
         );
     }
 
+    public function getSiteDowntime($siteId)
+    {
+        return collect();
+    }
+
 }
