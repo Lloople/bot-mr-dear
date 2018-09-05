@@ -13,4 +13,6 @@ class OhDearEmpty extends OhDear
 
     public function getBrokenLinks($siteId) { return collect(); }
 
+    public function getMixedContent($siteId) { return collect(); }
+
 }

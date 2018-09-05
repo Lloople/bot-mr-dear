@@ -16,7 +16,8 @@ class BrokenLinksTest extends TestCase
     public function can_get_a_list_of_broken_list_for_a_site()
     {
         $this->bot->receives('/brokenlinks example')
-            ->assertReply('The url https://example.com/broken returned a 404 error' . PHP_EOL . 'It was found on https://example.com');
+            ->assertReply('The url https://example.com/broken returned a 404 error' . PHP_EOL . 'It was found on https://example.com')
+            ->assertReply('The url https://example.com/backend returned a 403 error' . PHP_EOL . 'It was found on https://example.com');
     }
 
     /** @test */

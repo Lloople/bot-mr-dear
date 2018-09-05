@@ -3,6 +3,7 @@
 namespace Tests\Fakes;
 
 use App\OhDear\BrokenLink;
+use App\OhDear\MixedContent;
 use App\OhDear\Downtime;
 use App\OhDear\Site;
 use App\OhDear\Uptime;
@@ -59,14 +60,14 @@ class OhDear extends \App\OhDear\Services\OhDear
 
     public function getSiteDowntime($siteId)
     {
-        $downtimes = include base_path('tests/Fakes/resources/downtimes.php');
+        $downtimes = include base_path('tests/Fakes/responses/downtimes.php');
 
         return $this->collect(json_decode(json_encode($downtimes[$siteId]), true), Downtime::class);
     }
 
     public function getSiteUptime($siteId)
     {
-        $uptimes = include base_path('tests/Fakes/resources/uptimes.php');
+        $uptimes = include base_path('tests/Fakes/responses/uptimes.php');
 
         return $this->collect(json_decode(json_encode($uptimes[$siteId]), true), Uptime::class);
     }
@@ -87,5 +88,23 @@ class OhDear extends \App\OhDear\Services\OhDear
         ];
 
         return $this->collect($brokenLinks, BrokenLink::class);
+    }
+
+    public function getMixedContent($siteId)
+    {
+        $mixedContent = [
+            [
+                'elementName' => 'img',
+                'mixedContentUrl' => 'http://example.com/nonsecureimg.jpg',
+                'foundOnUrl' => 'https://example.com',
+            ],
+            [
+                'elementName' => 'iframe',
+                'mixedContentUrl' => 'http://example.iframe.com',
+                'foundOnUrl' => 'https://example.com/iframe',
+            ],
+        ];
+
+        return $this->collect($mixedContent, MixedContent::class);
     }
 }

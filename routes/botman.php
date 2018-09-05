@@ -13,3 +13,4 @@ $botman->hears('/deletesite (.*[^\s])', \App\Http\Controllers\Sites\DestroyContr
 $botman->hears('/downtime (.*[^\s])', \App\Http\Controllers\Downtime\ShowController::class);
 $botman->hears('/uptime (.*[^\s])', \App\Http\Controllers\Uptime\ShowController::class);
 $botman->hears('/brokenlinks (.*[^\s])', \App\Http\Controllers\BrokenLinks\ShowController::class);
+$botman->hears('/mixedcontent (.*[^\s])', \App\Http\Controllers\MixedContent\ShowController::class);
