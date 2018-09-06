@@ -11,7 +11,6 @@ class TokenTest extends TestCase
 
     use RefreshDatabase;
 
-
     /** @test */
     public function can_store_encrypted_token()
     {

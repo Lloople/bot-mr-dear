@@ -2,7 +2,6 @@
 
 namespace Tests\Fakes;
 
-use App\OhDear\Site;
 use Illuminate\Support\Collection;
 
 class OhDearEmpty extends OhDear

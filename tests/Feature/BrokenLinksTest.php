@@ -2,9 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\OhDear\Services\OhDear;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Fakes\OhDearEmpty;
 use Tests\TestCase;
 
 class BrokenLinksTest extends TestCase
@@ -19,12 +17,12 @@ class BrokenLinksTest extends TestCase
             ->assertReply(trans('ohdear.brokenlinks.result', [
                 'url' => 'https://example.com/broken',
                 'code' => '404',
-                'origin' => 'https://example.com'
+                'origin' => 'https://example.com',
             ]))
             ->assertReply(trans('ohdear.brokenlinks.result', [
                 'url' => 'https://example.com/backend',
                 'code' => '403',
-                'origin' => 'https://example.com'
+                'origin' => 'https://example.com',
             ]));
     }
 

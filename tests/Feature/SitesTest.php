@@ -10,6 +10,7 @@ use Tests\TestCase;
 
 class SitesTest extends TestCase
 {
+
     use RefreshDatabase;
 
     /** @test */

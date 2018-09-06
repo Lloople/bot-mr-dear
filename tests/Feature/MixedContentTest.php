@@ -2,9 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\OhDear\Services\OhDear;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Fakes\OhDearEmpty;
 use Tests\TestCase;
 
 class MixedContentTest extends TestCase
