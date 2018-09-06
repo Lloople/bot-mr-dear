@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Users;
+namespace App\Http\Controllers\Token;
 
 use App\Conversations\StartConversation;
 use App\Http\Controllers\Controller;
@@ -16,8 +16,11 @@ class StoreController extends Controller
      *
      * @return void
      */
-    public function __invoke(BotMan $bot)
+    public function __invoke(BotMan $bot, $token)
     {
-        $bot->startConversation(new StartConversation());
+        auth()->user()->token = encrypt($token);
+        auth()->user()->save();
+
+        $bot->reply(trans('ohdear.token.stored'));
     }
 }
