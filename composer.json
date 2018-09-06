@@ -11,6 +11,7 @@
     "require": {
         "php": ">=7.1.3",
         "botman/botman": "~2.0",
+        "botman/driver-telegram": "^1.5",
         "botman/driver-web": "~1.0",
         "botman/studio-addons": "~1.2.1",
         "botman/tinker": "~1.0",
