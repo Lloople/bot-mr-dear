@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\OhDear\Services\OhDear;
 use App\OhDear\Site;
 use BotMan\BotMan\BotMan;
+use BotMan\BotMan\Messages\Outgoing\Actions\Button;
+use BotMan\BotMan\Messages\Outgoing\Question;
 
 class IndexController extends Controller
 {
@@ -37,8 +39,12 @@ class IndexController extends Controller
             return;
         }
 
-        $sites->each(function (Site $site) use ($bot) {
-           $bot->reply($site->getResume());
-        });
+        $buttons = $sites->map(function (Site $site) {
+            return Button::create($site->getResume())->value("/site {$site->id}");
+        })->toArray();
+
+        $message = (new Question(trans('ohdear.sites.list_message')))->addButtons($buttons);
+
+        $bot->reply($message);
     }
 }
