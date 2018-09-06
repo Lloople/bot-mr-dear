@@ -31,9 +31,8 @@ class BrokenLinksTest extends TestCase
     /** @test */
     public function can_get_a_message_when_there_are_no_broken_links()
     {
-        $this->app->bind(OhDear::class, OhDearEmpty::class);
 
-        $this->bot->receives('/brokenlinks example')
+        $this->bot->receives('/brokenlinks 1111')
             ->assertReply(trans('ohdear.brokenlinks.perfect'));
     }
 }

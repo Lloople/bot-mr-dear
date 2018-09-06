@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Exceptions\SiteNotFoundException;
 use App\OhDear\Services\OhDear;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Fakes\OhDearEmpty;
@@ -79,6 +80,8 @@ class SitesTest extends TestCase
     /** @test */
     public function can_display_a_message_with_missing_site()
     {
+        $this->expectException(SiteNotFoundException::class);
+
         $this->bot->receives('/site https://new.example.com')
             ->assertReply(trans('ohdear.sites.not_found'));
     }

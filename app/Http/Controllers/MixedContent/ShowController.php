@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers\MixedContent;
 
-use App\Helpers\Str;
 use App\Http\Controllers\Controller;
 use App\OhDear\MixedContent;
 use App\OhDear\Services\OhDear;
-use App\Traits\FindSites;
 use BotMan\BotMan\BotMan;
 
 class ShowController extends Controller
 {
-
-    use FindSites;
 
     /** @var \App\OhDear\Services\OhDear */
     protected $dear;
@@ -29,31 +25,26 @@ class ShowController extends Controller
      * @param string $url
      *
      * @return void
+     * @throws \App\Exceptions\SiteNotFoundException
      */
     public function __invoke(BotMan $bot, string $url)
     {
         $bot->types();
 
-        $site = $this->find($url);
-
-        if (! $site) {
-            $bot->reply(trans('ohdear.sites.not_found'));
-
-            return;
-        }
+        $site = $this->dear->findSite($url);
 
         $mixedContent = $this->dear->getMixedContent($site->id);
 
         if ($mixedContent->isEmpty()) {
             $bot->reply(trans('ohdear.mixedcontent.perfect'));
-            
+
             return;
         }
-        
+
         $mixedContent->each(function (MixedContent $mixed) use ($bot) {
             $bot->reply(trans('ohdear.mixedcontent.result', [
                 'url' => $mixed->mixedContentUrl,
-                'origin' => $mixed->foundOnUrl
+                'origin' => $mixed->foundOnUrl,
             ]));
         });
     }

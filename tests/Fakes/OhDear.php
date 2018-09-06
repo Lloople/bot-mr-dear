@@ -2,9 +2,10 @@
 
 namespace Tests\Fakes;
 
+use App\Exceptions\SiteNotFoundException;
 use App\OhDear\BrokenLink;
-use App\OhDear\MixedContent;
 use App\OhDear\Downtime;
+use App\OhDear\MixedContent;
 use App\OhDear\Site;
 use App\OhDear\Uptime;
 use Illuminate\Support\Collection;
@@ -49,11 +50,18 @@ class OhDear extends \App\OhDear\Services\OhDear
         }, null);
     }
 
-    public function findSite(int $id): ?Site
+    public function findSite($id): Site
     {
-        return $this->sites->first(function (Site $site) use ($id) {
-            return $site->id === $id;
-        }, null);
+        if (is_numeric($id)) {
+            return $this->sites()->first(function (Site $site) use ($id) {
+                return $site->id == $id;
+            }, function () { throw new SiteNotFoundException(); });
+        }
+
+        return $this->sites()->first(function (Site $site) use ($id) {
+            return stripos($site->url, $id) !== false;
+        }, function () { throw new SiteNotFoundException(); });
+
     }
 
     public function deleteSite($siteId)
@@ -69,49 +77,55 @@ class OhDear extends \App\OhDear\Services\OhDear
     {
         $downtimes = include base_path('tests/Fakes/responses/downtimes.php');
 
-        return $this->collect(json_decode(json_encode($downtimes[$siteId]), true), Downtime::class);
+        return $this->collect($downtimes[$siteId], Downtime::class);
     }
 
     public function getSiteUptime($siteId)
     {
         $uptimes = include base_path('tests/Fakes/responses/uptimes.php');
 
-        return $this->collect(json_decode(json_encode($uptimes[$siteId]), true), Uptime::class);
+        return $this->collect($uptimes[$siteId], Uptime::class);
     }
 
     public function getBrokenLinks($siteId)
     {
         $brokenLinks = [
-            [
-                'crawledUrl' => 'https://example.com/broken',
-                'statusCode' => 404,
-                'foundOnUrl' => 'https://example.com',
+            '9999' => [
+                [
+                    'crawledUrl' => 'https://example.com/broken',
+                    'statusCode' => 404,
+                    'foundOnUrl' => 'https://example.com',
+                ],
+                [
+                    'crawledUrl' => 'https://example.com/backend',
+                    'statusCode' => 403,
+                    'foundOnUrl' => 'https://example.com',
+                ],
             ],
-            [
-                'crawledUrl' => 'https://example.com/backend',
-                'statusCode' => 403,
-                'foundOnUrl' => 'https://example.com',
-            ],
+            '1111' => [],
         ];
 
-        return $this->collect($brokenLinks, BrokenLink::class);
+        return $this->collect($brokenLinks[$siteId], BrokenLink::class);
     }
 
     public function getMixedContent($siteId)
     {
         $mixedContent = [
-            [
-                'elementName' => 'img',
-                'mixedContentUrl' => 'http://example.com/nonsecureimg.jpg',
-                'foundOnUrl' => 'https://example.com',
+            '9999' => [
+                [
+                    'elementName' => 'img',
+                    'mixedContentUrl' => 'http://example.com/nonsecureimg.jpg',
+                    'foundOnUrl' => 'https://example.com',
+                ],
+                [
+                    'elementName' => 'iframe',
+                    'mixedContentUrl' => 'http://example.iframe.com',
+                    'foundOnUrl' => 'https://example.com/iframe',
+                ],
             ],
-            [
-                'elementName' => 'iframe',
-                'mixedContentUrl' => 'http://example.iframe.com',
-                'foundOnUrl' => 'https://example.com/iframe',
-            ],
+            '1111' => [],
         ];
 
-        return $this->collect($mixedContent, MixedContent::class);
+        return $this->collect($mixedContent[$siteId], MixedContent::class);
     }
 }

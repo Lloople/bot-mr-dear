@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers\Downtime;
 
-use App\Helpers\Str;
 use App\Http\Controllers\Controller;
 use App\OhDear\Downtime;
 use App\OhDear\Services\OhDear;
-use App\Traits\FindSites;
 use BotMan\BotMan\BotMan;
 
 class ShowController extends Controller
 {
-
-    use FindSites;
 
     /** @var \App\OhDear\Services\OhDear */
     protected $dear;
@@ -29,18 +25,13 @@ class ShowController extends Controller
      * @param string $url
      *
      * @return void
+     * @throws \App\Exceptions\SiteNotFoundException
      */
     public function __invoke(BotMan $bot, string $url)
     {
         $bot->types();
 
-        $site = $this->find($url);
-
-        if (! $site) {
-            $bot->reply(trans('ohdear.sites.not_found'));
-
-            return;
-        }
+        $site = $this->dear->findSite($url);
 
         $downtime = $this->dear->getSiteDowntime($site->id);
 
@@ -52,17 +43,16 @@ class ShowController extends Controller
 
         $bot->reply(trans('ohdear.downtime.summary', [
             'elapsed' => $downtime->first()->elapsed,
-            'emoji' => $downtime->first()->getElapsedEmoji()
+            'emoji' => $downtime->first()->getElapsedEmoji(),
         ]));
 
         $downtime->each(function (Downtime $downtime) use ($bot) {
 
             $bot->reply(trans('ohdear.downtime.result', [
                 'downtime' => $downtime->getDowntime(),
-                'date' => $downtime->startedAt
+                'date' => $downtime->startedAt,
             ]));
         });
     }
-
 
 }

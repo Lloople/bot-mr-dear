@@ -29,9 +29,8 @@ class MixedContentTest extends TestCase
     /** @test */
     public function can_get_a_message_when_there_are_no_mixed_content()
     {
-        $this->app->bind(OhDear::class, OhDearEmpty::class);
 
-        $this->bot->receives('/mixedcontent example')
+        $this->bot->receives('/mixedcontent 1111')
             ->assertReply(trans('ohdear.mixedcontent.perfect'));
     }
 }

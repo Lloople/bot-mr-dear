@@ -3,6 +3,7 @@
 namespace App\OhDear\Services;
 
 use App\Exceptions\InvalidUrlException;
+use App\Exceptions\SiteNotFoundException;
 use App\Helpers\Str;
 use App\OhDear\BrokenLink;
 use App\OhDear\Downtime;
@@ -66,15 +67,35 @@ class OhDear
         }
     }
 
-    public function findSite(int $id)
+    /**
+     * @param $id
+     *
+     * @return \App\OhDear\Site
+     * @throws \App\Exceptions\SiteNotFoundException
+     */
+    public function findSite($id): Site
     {
         try {
+            if (is_numeric($id)) {
 
-            return new Site($this->ohDear->get("sites/{$id}"));
+                $site = $this->ohDear->get("sites/{$id}");
 
+            } elseif (! Str::validate_url($id)) {
+
+                $site = $this->ohDear->sites()->first(function (Site $site) use ($id) {
+                    return stripos($site->url, $id) !== false;
+                }, function () { throw new NotFoundException(); });
+
+            } else {
+
+                $site = $this->ohDear->get("sites/url/{$id}");
+
+            }
+
+            return new Site($site, $this);
         } catch (NotFoundException $e) {
 
-            return null;
+            throw new SiteNotFoundException();
 
         }
     }
@@ -86,12 +107,14 @@ class OhDear
 
     public function getSiteDowntime($siteId)
     {
-        return $this->collect($this->ohDear->get("sites/{$siteId}/downtime{$this->getDefaultStartedEndedFilter()}"), Downtime::class);
+        return $this->collect($this->ohDear->get("sites/{$siteId}/downtime{$this->getDefaultStartedEndedFilter()}"),
+            Downtime::class);
     }
 
     public function getSiteUptime($siteId)
     {
-        return $this->collect($this->ohDear->get("sites/{$siteId}/uptime{$this->getDefaultStartedEndedFilter()}"), Uptime::class);
+        return $this->collect($this->ohDear->get("sites/{$siteId}/uptime{$this->getDefaultStartedEndedFilter()}"),
+            Uptime::class);
     }
 
     public function getBrokenLinks($siteId)
@@ -123,6 +146,6 @@ class OhDear
 
     private function getDefaultStartedEndedFilter()
     {
-        return "?filter[started_at]=".now()->subDays(30)->format('YmdHis')."&filter[ended_at]=".date('YmdHis');
+        return "?filter[started_at]=" . now()->subDays(30)->format('YmdHis') . "&filter[ended_at]=" . date('YmdHis');
     }
 }

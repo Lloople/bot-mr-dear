@@ -15,9 +15,8 @@ class DowntimeTest extends TestCase
     /** @test */
     public function can_see_perfect_uptime_message()
     {
-        $this->app->bind(OhDear::class, OhDearEmpty::class);
 
-        $this->bot->receives('/downtime https://months.example.com')
+        $this->bot->receives('/downtime 9998')
             ->assertReply(trans('ohdear.downtime.perfect'));
     }
 
@@ -27,7 +26,7 @@ class DowntimeTest extends TestCase
         $this->bot->receives('/downtime https://months.example.com')
             ->assertReply(trans('ohdear.downtime.summary', [
                 'elapsed' => '3 months',
-                'emoji' => '🎉'
+                'emoji' => '🎉',
             ]))
             ->assertReply(trans('ohdear.downtime.result', [
                 'downtime' => '1 minute and 34 seconds',
@@ -41,7 +40,7 @@ class DowntimeTest extends TestCase
         $this->bot->receives('/downtime https://weeks.example.com')
             ->assertReply(trans('ohdear.downtime.summary', [
                 'elapsed' => '3 weeks',
-                'emoji' => '🙌'
+                'emoji' => '🙌',
             ]))
             ->assertReply(trans('ohdear.downtime.result', [
                 'downtime' => '8 minutes and 10 seconds',
@@ -55,7 +54,7 @@ class DowntimeTest extends TestCase
         $this->bot->receives('/downtime https://days.example.com')
             ->assertReply(trans('ohdear.downtime.summary', [
                 'elapsed' => '1 day',
-                'emoji' => '👍'
+                'emoji' => '👍',
             ]))
             ->assertReply(trans('ohdear.downtime.result', [
                 'downtime' => '2 days, 5 hours and 3 minutes',
@@ -69,7 +68,7 @@ class DowntimeTest extends TestCase
         $this->bot->receives('/downtime https://hours.example.com')
             ->assertReply(trans('ohdear.downtime.summary', [
                 'elapsed' => '7 hours',
-                'emoji' => '😕'
+                'emoji' => '😕',
             ]))
             ->assertReply(trans('ohdear.downtime.result', [
                 'downtime' => '6 minutes',
@@ -83,11 +82,18 @@ class DowntimeTest extends TestCase
         $this->bot->receives('/downtime https://minutes.example.com')
             ->assertReply(trans('ohdear.downtime.summary', [
                 'elapsed' => '33 minutes',
-                'emoji' => '😞'
+                'emoji' => '😞',
             ]))
             ->assertReply(trans('ohdear.downtime.result', [
                 'downtime' => '55 seconds',
                 'date' => now()->subMinutes(34),
             ]));
+    }
+
+    /** @test */
+    public function can_see_zero_downtimes()
+    {
+        $this->bot->receives('/downtime 9998')
+            ->assertReply(trans('ohdear.downtime.perfect'));
     }
 }

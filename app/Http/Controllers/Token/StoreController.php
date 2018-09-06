@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Token;
 
-use App\Conversations\StartConversation;
 use App\Http\Controllers\Controller;
 use BotMan\BotMan\BotMan;
 
