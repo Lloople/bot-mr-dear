@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Sites;
 
 use App\Http\Controllers\Controller;
 use App\OhDear\Services\OhDear;
+use App\Traits\FindSites;
 use BotMan\BotMan\BotMan;
 
 class ShowController extends Controller
 {
+
+    use FindSites;
 
     /** @var \App\OhDear\Services\OhDear */
     protected $dear;
@@ -29,7 +32,7 @@ class ShowController extends Controller
     {
         $bot->types();
 
-        $site = $this->dear->findSiteByUrl($url);
+        $site = $this->find($url);
 
         if (! $site) {
             $bot->reply(trans('ohdear.sites.not_found'));

@@ -6,10 +6,13 @@ use App\Helpers\Str;
 use App\Http\Controllers\Controller;
 use App\OhDear\Downtime;
 use App\OhDear\Services\OhDear;
+use App\Traits\FindSites;
 use BotMan\BotMan\BotMan;
 
 class ShowController extends Controller
 {
+
+    use FindSites;
 
     /** @var \App\OhDear\Services\OhDear */
     protected $dear;
@@ -31,7 +34,7 @@ class ShowController extends Controller
     {
         $bot->types();
 
-        $site = $this->dear->findSiteByUrl($url);
+        $site = $this->find($url);
 
         if (! $site) {
             $bot->reply(trans('ohdear.sites.not_found'));
@@ -57,6 +60,7 @@ class ShowController extends Controller
             $bot->reply(trans('ohdear.downtime.result', [
                 'downtime' => $downtime->getDowntime(),
                 'date' => $downtime->startedAt
+            ]));
         });
     }
 

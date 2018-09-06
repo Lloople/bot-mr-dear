@@ -49,6 +49,13 @@ class OhDear extends \App\OhDear\Services\OhDear
         }, null);
     }
 
+    public function findSite(int $id): ?Site
+    {
+        return $this->sites->first(function (Site $site) use ($id) {
+            return $site->id === $id;
+        }, null);
+    }
+
     public function deleteSite($siteId)
     {
         $this->sites = $this->sites->reject(function (Site $site) use ($siteId) {

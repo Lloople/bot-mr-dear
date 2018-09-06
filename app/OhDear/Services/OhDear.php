@@ -57,7 +57,20 @@ class OhDear
                 }, function () { throw new NotFoundException(); });
             }
 
-            return $this->ohDear->get("sites/url/{$url}");
+            return new Site($this->ohDear->get("sites/url/{$url}"));
+
+        } catch (NotFoundException $e) {
+
+            return null;
+
+        }
+    }
+
+    public function findSite(int $id)
+    {
+        try {
+
+            return new Site($this->ohDear->get("sites/{$id}"));
 
         } catch (NotFoundException $e) {
 
