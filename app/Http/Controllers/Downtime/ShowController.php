@@ -53,6 +53,8 @@ class ShowController extends Controller
                 'date' => $downtime->startedAt,
             ]));
         });
+
+        $bot->reply($site->getKeyboard());
     }
 
 }

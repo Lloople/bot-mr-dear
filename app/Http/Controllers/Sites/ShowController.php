@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Sites;
 use App\Http\Controllers\Controller;
 use App\OhDear\Services\OhDear;
 use BotMan\BotMan\BotMan;
+use BotMan\BotMan\Messages\Outgoing\Actions\Button;
+use BotMan\BotMan\Messages\Outgoing\Question;
 
 class ShowController extends Controller
 {
@@ -32,7 +34,7 @@ class ShowController extends Controller
 
         $site = $this->dear->findSite($url);
 
-        $bot->reply($site->getResume());
         $bot->reply($site->getInformation());
+        $bot->reply($site->getKeyboard());
     }
 }

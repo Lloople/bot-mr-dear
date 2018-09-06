@@ -7,27 +7,31 @@ use App\Exceptions\SiteNotFoundException;
 use App\Helpers\Str;
 use App\OhDear\BrokenLink;
 use App\OhDear\Downtime;
+use App\OhDear\MixedContent;
 use App\OhDear\Site;
 use App\OhDear\Uptime;
 use Illuminate\Support\Collection;
 use OhDear\PhpSdk\Exceptions\NotFoundException;
+use OhDear\PhpSdk\MakesHttpRequests;
 
 class OhDear
 {
 
+    use MakesHttpRequests;
+    
     /** @var \OhDear\PhpSdk\OhDear */
     private $ohDear;
 
     public function __construct()
     {
-        $token = auth()->user()->getToken();
+        $this->ohDear = new \OhDear\PhpSdk\OhDear(auth()->user()->getToken(), null);
 
-        $this->ohDear = new \OhDear\PhpSdk\OhDear($token, null);
+        $this->client = $this->ohDear->client;
     }
 
     public function sites(): Collection
     {
-        return $this->collect($this->ohDear->get('sites')['data'], Site::class);
+        return $this->collect($this->get('sites')['data'], Site::class);
     }
 
     /**
@@ -58,7 +62,7 @@ class OhDear
                 }, function () { throw new NotFoundException(); });
             }
 
-            return new Site($this->ohDear->get("sites/url/{$url}"));
+            return new Site($this->get("sites/url/{$url}"));
 
         } catch (NotFoundException $e) {
 
@@ -78,7 +82,7 @@ class OhDear
         try {
             if (is_numeric($id)) {
 
-                $site = $this->ohDear->get("sites/{$id}");
+                $site = $this->get("sites/{$id}");
 
             } elseif (! Str::validate_url($id)) {
 
@@ -88,7 +92,7 @@ class OhDear
 
             } else {
 
-                $site = $this->ohDear->get("sites/url/{$id}");
+                $site = $this->get("sites/url/{$id}");
 
             }
 
@@ -107,19 +111,24 @@ class OhDear
 
     public function getSiteDowntime($siteId)
     {
-        return $this->collect($this->ohDear->get("sites/{$siteId}/downtime{$this->getDefaultStartedEndedFilter()}"),
+        return $this->collect($this->get("sites/{$siteId}/downtime{$this->getDefaultStartedEndedFilter()}"),
             Downtime::class);
     }
 
     public function getSiteUptime($siteId)
     {
-        return $this->collect($this->ohDear->get("sites/{$siteId}/uptime{$this->getDefaultStartedEndedFilter()}"),
+        return $this->collect($this->get("sites/{$siteId}/uptime{$this->getDefaultStartedEndedFilter()}")['data'],
             Uptime::class);
     }
 
     public function getBrokenLinks($siteId)
     {
-        return $this->collect($this->ohDear->get("broken-links/{$siteId}"), BrokenLink::class);
+        return $this->collect($this->get("broken-links/{$siteId}")['data'], BrokenLink::class);
+    }
+
+    public function getMixedContent($siteId)
+    {
+        return $this->collect($this->get("mixed-content/{$siteId}")['data'], MixedContent::class);
     }
 
     public function collect($collection, $class)

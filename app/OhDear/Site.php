@@ -2,6 +2,9 @@
 
 namespace App\OhDear;
 
+use BotMan\BotMan\Messages\Outgoing\Actions\Button;
+use BotMan\BotMan\Messages\Outgoing\Question;
+
 class Site extends \OhDear\PhpSdk\Resources\Site
 {
 
@@ -21,15 +24,28 @@ class Site extends \OhDear\PhpSdk\Resources\Site
 
     public function getInformation()
     {
-        return collect($this->checks)->map(function (Check $check) {
+        return "{$this->getStatusEmoji()} {$this->sortUrl}"
+            . PHP_EOL
+            . collect($this->checks)->map(function (Check $check) {
 
-            if (! $check->enabled) {
-                return null;
-            }
+                if (! $check->enabled) {
+                    return null;
+                }
 
-            return "{$check->getResultAsIcon()} {$check->getTypeAsTitle()}";
+                return "{$check->getResultAsIcon()} {$check->getTypeAsTitle()}";
 
-        })->filter()->implode(PHP_EOL);
+            })->filter()->implode(PHP_EOL);
+    }
+
+    public function getKeyboard()
+    {
+        return (new Question('Actions'))
+            ->addButtons([
+                Button::create('Uptime')->value("/uptime {$this->id}"),
+                Button::create('Downtime')->value("/downtime {$this->id}"),
+                Button::create('Broken Links')->value("/brokenlinks {$this->id}"),
+                Button::create('Mixed Content')->value("/mixedcontent {$this->id}"),
+            ]);
     }
 
     public function isUp()

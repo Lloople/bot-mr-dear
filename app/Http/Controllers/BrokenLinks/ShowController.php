@@ -49,5 +49,7 @@ class ShowController extends Controller
                 'origin' => $link->foundOnUrl
             ]));
         });
+
+        $bot->reply($site->getKeyboard());
     }
 }

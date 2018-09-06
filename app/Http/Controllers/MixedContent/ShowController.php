@@ -47,5 +47,7 @@ class ShowController extends Controller
                 'origin' => $mixed->foundOnUrl,
             ]));
         });
+
+        $bot->reply($site->getKeyboard());
     }
 }

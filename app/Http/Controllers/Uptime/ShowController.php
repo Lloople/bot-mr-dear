@@ -55,6 +55,8 @@ class ShowController extends Controller
                 'begin' => $firstDay->datetime, 'end' => $lastDay->datetime
             ]));
         }
+
+        $bot->reply($site->getKeyboard());
     }
 
 
