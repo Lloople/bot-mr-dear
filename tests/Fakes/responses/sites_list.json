@@ -78,30 +78,35 @@
     {
       "id": 1111,
       "url": "https://months.example.com",
+      "sort_url": "months.example.com",
       "summarized_check_result": "succeeded",
       "checks" : []
     },
     {
       "id": 2222,
       "url": "https://weeks.example.com",
+      "sort_url": "weeks.example.com",
       "summarized_check_result": "succeeded",
       "checks" : []
     },
     {
       "id": 3333,
       "url": "https://days.example.com",
+      "sort_url": "days.example.com",
       "summarized_check_result": "succeeded",
       "checks" : []
     },
     {
       "id": 4444,
       "url": "https://hours.example.com",
+      "sort_url": "hours.example.com",
       "summarized_check_result": "succeeded",
       "checks" : []
     },
     {
       "id": 5555,
       "url": "https://minutes.example.com",
+      "sort_url": "minutes.example.com",
       "summarized_check_result": "succeeded",
       "checks" : []
     }
