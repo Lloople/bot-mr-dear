@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\OhDear\Services\OhDear;
 use BotMan\BotMan\BotMan;
 
-class CreateController extends Controller
+class StoreController extends Controller
 {
 
     /** @var \App\OhDear\Services\OhDear */
