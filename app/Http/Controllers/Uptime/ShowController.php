@@ -15,14 +15,6 @@ class ShowController extends Controller
     /** @var \App\OhDear\Services\OhDear */
     protected $dear;
 
-    const PERCENTAGES_EMOJIS = [
-        '🎉' => 100,
-        '🙌' => 75,
-        '😕' => 50,
-        '😞' => 25,
-        '😱' => 0,
-    ];
-
     public function __construct(OhDear $dear)
     {
         $this->dear = $dear;
@@ -43,11 +35,7 @@ class ShowController extends Controller
         $site = $this->dear->findSiteByUrl($url);
 
         if (! $site) {
-            $bot->reply('You\'re not currently monitoring this site. Would you like to?');
-
-            if (Str::validate_url($url)) {
-                $bot->reply("/newsite {$url}");
-            }
+            $bot->reply(trans('ohdear.sites.not_found'));
 
             return;
         }
@@ -59,26 +47,22 @@ class ShowController extends Controller
 
         })->each(function (Uptime $uptime) use ($bot) {
 
-            $bot->reply("Your site had a {$uptime->uptimePercentage}% of uptime on {$uptime->datetime} {$this->getPercentageEmoji($uptime->uptimePercentage)}");
+            $bot->reply(trans('ohdear.uptime.result', [
+                'percentage' => $uptime->uptimePercentage,
+                'date' => $uptime->datetime,
+                'emoji' => $uptime->getPercentageEmoji()
+                ]));
 
         });
 
         if ($daysWithDowntime->isEmpty()) {
             $firstDay = $uptime->reverse()->first();
             $lastDay = $uptime->first();
-            $bot->reply("Your site had a perfect uptime from {$firstDay->datetime} to {$lastDay->datetime}! 🙌");
+            $bot->reply(trans('ohdear.uptime.perfect', [
+                'begin' => $firstDay->datetime, 'end' => $lastDay->datetime
+            ]));
         }
     }
 
-    private function getPercentageEmoji($percentage)
-    {
-        foreach (self::PERCENTAGES_EMOJIS as $emoji => $cut) {
 
-            if (abs($percentage - $cut) <= 12.5) {
-                return $emoji;
-            }
-        }
-
-        return '😱';
-    }
 }

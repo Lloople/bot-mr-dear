@@ -11,11 +11,6 @@ use BotMan\BotMan\Messages\Outgoing\Question;
 
 class SiteDestroyConversation extends Conversation
 {
-
-    const WARNING_1 = '⚠️ Are you sure you want to stop monitoring this site? All history data will be lost and this step cannot be undone.';
-    const WARNING_2 = 'I\'ll proceed to delete the site *https://example.com*. Are you totally sure you want to continue?';
-    const CANCEL_MESSAGE = 'Okey, we will keep monitoring the site a bit longer 🙂';
-
     /** @var \App\OhDear\Site  */
     private $site;
 
@@ -36,14 +31,14 @@ class SiteDestroyConversation extends Conversation
 
     public function askFirstConfirmation()
     {
-        $this->ask($this->getQuestion(self::WARNING_1), function (Answer $answer) {
+        $this->ask($this->getQuestion(trans('ohdear.sites.delete_confirm_1')), function (Answer $answer) {
 
             $nextStep = $answer->isInteractiveMessageReply()
                 ? $answer->getValue()
                 : $this->answerToBoolean($answer->getText());
 
             if (! $nextStep) {
-                $this->bot->reply(self::CANCEL_MESSAGE);
+                $this->bot->reply(trans('ohdear.sites.delete_cancel'));
 
                 return;
             }
@@ -65,21 +60,21 @@ class SiteDestroyConversation extends Conversation
 
     public function askSecondConfirmation()
     {
-        $this->ask($this->getQuestion(self::WARNING_2), function (Answer $answer) {
+        $this->ask($this->getQuestion(trans('ohdear.sites.delete_confirm_2')), function (Answer $answer) {
 
             $nextStep = $answer->isInteractiveMessageReply()
                 ? $answer->getValue()
                 : $this->answerToBoolean($answer->getText());
 
             if (! $nextStep) {
-                $this->bot->reply(self::CANCEL_MESSAGE);
+                $this->bot->reply(trans('ohdear.sites.delete_cancel'));
 
                 return;
             }
 
             $this->site->delete();
 
-            $this->bot->reply("I deleted the site {$this->site->url}. You're no longer monitoring it.");
+            $this->bot->reply(trans('ohdear.sites.deleted'));
         });
     }
 

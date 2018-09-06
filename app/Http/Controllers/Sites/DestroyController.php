@@ -32,22 +32,11 @@ class DestroyController extends Controller
         $site = $this->dear->findSiteByUrl($url);
 
         if (! $site) {
-            $bot->reply('You\'re not currently monitoring this site.');
+            $bot->reply(trans('ohdear.sites.not_found'));
 
             return;
         }
 
         $bot->startConversation(new SiteDestroyConversation($this->dear, $site));
-
-        $site = $this->dear->findSiteByUrl($url);
-
-        if (! $site) {
-            $bot->reply('You\'re not currently monitoring this site. Would you like to?');
-            $bot->reply("/newsite {$url}");
-            return;
-        }
-
-        $bot->reply($site->getResume());
-        $bot->reply($site->getInformation());
     }
 }

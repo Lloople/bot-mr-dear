@@ -14,15 +14,6 @@ class ShowController extends Controller
     /** @var \App\OhDear\Services\OhDear */
     protected $dear;
 
-    const INTERVALS_EMOJIS = [
-        'month' => '🎉',
-        'week' => '🙌',
-        'day' => '👍',
-        'hour' => '😕',
-        'minute' => '😞',
-        'second' => '😱'
-    ];
-
     public function __construct(OhDear $dear)
     {
         $this->dear = $dear;
@@ -43,10 +34,7 @@ class ShowController extends Controller
         $site = $this->dear->findSiteByUrl($url);
 
         if (! $site) {
-            $bot->reply('You\'re not currently monitoring this site. Would you like to?');
-            if (Str::validate_url($url)) {
-                $bot->reply("/newsite {$url}");
-            }
+            $bot->reply(trans('ohdear.sites.not_found'));
 
             return;
         }
@@ -54,30 +42,23 @@ class ShowController extends Controller
         $downtime = $this->dear->getSiteDowntime($site->id);
 
         if ($downtime->isEmpty()) {
-            $bot->reply('Your site was up all the time during this period! 🎉');
+            $bot->reply(trans('ohdear.downtime.perfect'));
 
             return;
         }
 
-        $elapsed = Str::elapsed_time_greatest($downtime->first()->endedAt);
-
-        $bot->reply("The last time your site was down was {$elapsed} ago {$this->getIntervalEmoji($elapsed)}");
+        $bot->reply(trans('ohdear.downtime.summary', [
+            'elapsed' => $downtime->first()->elapsed,
+            'emoji' => $downtime->first()->getElapsedEmoji()
+        ]));
 
         $downtime->each(function (Downtime $downtime) use ($bot) {
 
-            $bot->reply("Your website was down for {$downtime->getDowntime()} on {$downtime->startedAt}");
+            $bot->reply(trans('ohdear.downtime.result', [
+                'downtime' => $downtime->getDowntime(),
+                'date' => $downtime->startedAt
         });
-
     }
 
-    private function getIntervalEmoji($interval)
-    {
-        foreach (self::INTERVALS_EMOJIS as $key => $emoji) {
-            if (stripos($interval, $key) !== false) {
-                return $emoji;
-            }
-        }
 
-        return '😱';
-    }
 }

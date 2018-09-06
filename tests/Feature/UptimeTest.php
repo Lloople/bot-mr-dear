@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class UptimeTest extends TestCase
@@ -15,20 +14,31 @@ class UptimeTest extends TestCase
     public function can_skip_first_uptime_if_it_was_perfect()
     {
         $this->bot->receives('/uptime https://months.example.com')
-            ->assertReply('Your site had a 90% of uptime on '.now()->subDay()->subMonths(5).' 🎉');
+            ->assertReply(trans('ohdear.uptime.result', [
+                'percentage' => '90',
+                'date' => now()->subDay()->subMonths(5),
+                'emoji' => '🎉',
+            ]));
     }
 
     /** @test */
     public function can_see_a_perfect_uptime()
     {
         $this->bot->receives('/uptime https://weeks.example.com')
-            ->assertReply('Your site had a perfect uptime from '.now()->subDays(28).' to '.now()->subDays(22).'! 🙌');
+            ->assertReply(trans('ohdear.uptime.perfect', [
+                'begin' => now()->subDays(28),
+                'end' => now()->subDays(22),
+            ]));
     }
 
     /** @test */
     public function can_show_lower_emoji_if_percentage_is_closer()
     {
         $this->bot->receives('/uptime https://days.example.com')
-            ->assertReply('Your site had a 62% of uptime on '.now()->subDays(4).' 😕');
+            ->assertReply(trans('ohdear.uptime.result', [
+                'percentage' => '62',
+                'date' => now()->subDays(4),
+                'emoji' => '😕',
+            ]));
     }
 }

@@ -16,9 +16,7 @@ class Site extends \OhDear\PhpSdk\Resources\Site
 
     public function getResume()
     {
-        return $this->isUp()
-            ? "✅ {$this->sortUrl} - site is up! 💪"
-            : "🔴 {$this->sortUrl} - site is down! 😱";
+        return "{$this->getStatusEmoji()} {$this->sortUrl}";
     }
 
     public function getInformation()
@@ -42,5 +40,10 @@ class Site extends \OhDear\PhpSdk\Resources\Site
     public function delete()
     {
         return $this->ohDear->deleteSite($this->id);
+    }
+
+    public function getStatusEmoji()
+    {
+        return $this->isUp() ? "✅" : "🔴";
     }
 }

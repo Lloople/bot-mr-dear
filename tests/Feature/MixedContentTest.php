@@ -16,8 +16,14 @@ class MixedContentTest extends TestCase
     public function can_get_a_list_of_mixed_content_for_a_site()
     {
         $this->bot->receives('/mixedcontent example')
-            ->assertReply('http://example.com/nonsecureimg.jpg'.PHP_EOL.'Was found on https://example.com')
-            ->assertReply('http://example.iframe.com'.PHP_EOL.'Was found on https://example.com/iframe');
+            ->assertReply(trans('ohdear.mixedcontent.result', [
+                'url' => 'http://example.com/nonsecureimg.jpg',
+                'origin' => 'https://example.com',
+            ]))
+            ->assertReply(trans('ohdear.mixedcontent.result', [
+                'url' => 'http://example.iframe.com',
+                'origin' => 'https://example.com/iframe',
+            ]));
     }
 
     /** @test */
@@ -26,6 +32,6 @@ class MixedContentTest extends TestCase
         $this->app->bind(OhDear::class, OhDearEmpty::class);
 
         $this->bot->receives('/mixedcontent example')
-            ->assertReply('Your site has no mixed content! 🙌');
+            ->assertReply(trans('ohdear.mixedcontent.perfect'));
     }
 }

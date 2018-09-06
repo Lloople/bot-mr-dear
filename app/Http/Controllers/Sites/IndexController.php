@@ -32,8 +32,7 @@ class IndexController extends Controller
         $sites = $this->dear->sites();
 
         if (! $sites->count()) {
-            $bot->reply('There are no sites on your account.');
-            $bot->reply('Perhaps you want to add a new one right now? use the command /newsite');
+            $bot->reply(trans('ohdear.sites.list_empty'));
 
             return;
         }

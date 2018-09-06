@@ -32,8 +32,8 @@ class ShowController extends Controller
         $site = $this->dear->findSiteByUrl($url);
 
         if (! $site) {
-            $bot->reply('You\'re not currently monitoring this site. Would you like to?');
-            $bot->reply("/newsite {$url}");
+            $bot->reply(trans('ohdear.sites.not_found'));
+
             return;
         }
 

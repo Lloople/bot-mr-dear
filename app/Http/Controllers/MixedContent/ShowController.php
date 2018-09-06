@@ -36,25 +36,24 @@ class ShowController extends Controller
         $site = $this->dear->findSiteByUrl($url);
 
         if (! $site) {
-            $bot->reply('You\'re not currently monitoring this site. Would you like to?');
-
-            if (Str::validate_url($url)) {
-                $bot->reply("/newsite {$url}");
-            }
+            $bot->reply(trans('ohdear.sites.not_found'));
 
             return;
         }
 
-        $mixedContent = $this->dear->geTMixedContent($site->id);
+        $mixedContent = $this->dear->getMixedContent($site->id);
 
         if ($mixedContent->isEmpty()) {
-            $bot->reply('Your site has no mixed content! 🙌');
+            $bot->reply(trans('ohdear.mixedcontent.perfect'));
             
             return;
         }
         
         $mixedContent->each(function (MixedContent $mixed) use ($bot) {
-            $bot->reply("{$mixed->mixedContentUrl}".PHP_EOL."Was found on {$mixed->foundOnUrl}");
+            $bot->reply(trans('ohdear.mixedcontent.result', [
+                'url' => $mixed->mixedContentUrl,
+                'origin' => $mixed->foundOnUrl
+            ]));
         });
     }
 }

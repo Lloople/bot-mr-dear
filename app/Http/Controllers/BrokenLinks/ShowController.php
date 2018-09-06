@@ -35,11 +35,7 @@ class ShowController extends Controller
         $site = $this->dear->findSiteByUrl($url);
 
         if (! $site) {
-            $bot->reply('You\'re not currently monitoring this site. Would you like to?');
-
-            if (Str::validate_url($url)) {
-                $bot->reply("/newsite {$url}");
-            }
+            $bot->reply(trans('ohdear.sites.not_found'));
 
             return;
         }
@@ -47,13 +43,17 @@ class ShowController extends Controller
         $links = $this->dear->getBrokenLinks($site->id);
 
         if ($links->isEmpty()) {
-            $bot->reply('Your site has no broken links! 🙌');
+            $bot->reply(trans('ohdear.brokenlinks.perfect'));
             
             return;
         }
         
         $links->each(function (BrokenLink $link) use ($bot) {
-            $bot->reply("The url {$link->crawledUrl} returned a {$link->statusCode} error".PHP_EOL."It was found on {$link->foundOnUrl}");
+            $bot->reply(trans('ohdear.brokenlinks.result', [
+                'url' => $link->crawledUrl,
+                'code' => $link->statusCode,
+                'origin' => $link->foundOnUrl
+            ]));
         });
     }
 }

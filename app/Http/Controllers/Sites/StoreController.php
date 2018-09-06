@@ -31,17 +31,17 @@ class StoreController extends Controller
         $bot->types();
 
         if ($this->dear->findSiteByUrl($url)) {
-            $bot->reply('You\'re already monitoring that url 😅');
+            $bot->reply(trans('ohdear.sites.already_exists'));
             return;
         }
 
         try {
             $site = $this->dear->createSite($url);
 
-            $bot->reply('👍 Oh Dear is now monitoring your site. All checks have been enabled by default.');
+            $bot->reply(trans('ohdear.sites.created'));
 
         } catch (InvalidUrlException $e) {
-            $bot->reply('Sorry, I cannot say that\'s a valid url. Example: https://example.com');
+            $bot->reply(trans('ohdear.sites.invalid_url'));
         }
     }
 }

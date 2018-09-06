@@ -15,8 +15,7 @@ class SitesTest extends TestCase
     public function can_show_list_of_sites()
     {
         $this->bot->receives('/sites')
-            ->assertReply('✅ example.com - site is up! 💪')
-            ->assertReply('🔴 failed.example.com - site is down! 😱');
+            ->assertQuestion(trans('ohdear.sites.list_message'));
     }
 
     /** @test */
@@ -25,44 +24,63 @@ class SitesTest extends TestCase
         $this->app->bind(OhDear::class, OhDearEmpty::class);
 
         $this->bot->receives('/sites')
-            ->assertReply('There are no sites on your account.')
-            ->assertReply('Perhaps you want to add a new one right now? use the command /newsite');
+            ->assertReply(trans('ohdear.sites.list_empty'));
     }
 
     /** @test */
     public function incorrect_url_gets_rejected()
     {
         $this->bot->receives('/newsite new.example.com')
-            ->assertReply('Sorry, I cannot say that\'s a valid url. Example: https://example.com');
+            ->assertReply(trans('ohdear.sites.invalid_url'));
     }
 
     /** @test */
     public function can_create_a_new_site()
     {
         $this->bot->receives('/newsite https://new.example.com')
-            ->assertReply('👍 Oh Dear is now monitoring your site. All checks have been enabled by default.');
+            ->assertReply(trans('ohdear.sites.created'));
+    }
+
+    /** @test */
+    public function cannot_create_a_site_with_already_in_use_url()
+    {
+        $this->bot->receives('/newsite https://example.com')
+            ->assertReply(trans('ohdear.sites.already_exists'));
     }
 
     /** @test */
     public function can_show_a_site()
     {
         $this->bot->receives('/site https://example.com')
-            ->assertReply('✅ example.com - site is up! 💪');
+            ->assertReply('✅ example.com');
+    }
+
+    /** @test */
+    public function emoji_change_if_site_is_down()
+    {
+        $this->bot->receives('/site http://failed.example.com')
+            ->assertReply('🔴 failed.example.com');
     }
 
     /** @test */
     public function can_show_a_site_by_domain()
     {
         $this->bot->receives('/site example')
-            ->assertReply('✅ example.com - site is up! 💪');
+            ->assertReply('✅ example.com');
+    }
+
+    /** @test */
+    public function can_show_a_site_by_id()
+    {
+        $this->bot->receives('/site 9999')
+            ->assertReply('✅ example.com');
     }
 
     /** @test */
     public function can_display_a_message_with_missing_site()
     {
         $this->bot->receives('/site https://new.example.com')
-            ->assertReply('You\'re not currently monitoring this site. Would you like to?')
-            ->assertReply('/newsite https://new.example.com');
+            ->assertReply(trans('ohdear.sites.not_found'));
     }
 
     /** @test */
@@ -71,11 +89,11 @@ class SitesTest extends TestCase
         $this->assertNotNull(app(OhDear::class)->findSiteByUrl('https://example.com'));
 
         $this->bot->receives('/deletesite https://example.com')
-            ->assertQuestion('⚠️ Are you sure you want to stop monitoring this site? All history data will be lost and this step cannot be undone.')
+            ->assertQuestion(trans('ohdear.sites.delete_confirm_1'))
             ->receivesInteractiveMessage(true)
-            ->assertQuestion('I\'ll proceed to delete the site *https://example.com*. Are you totally sure you want to continue?')
+            ->assertQuestion(trans('ohdear.sites.delete_confirm_2'))
             ->receivesInteractiveMessage(true)
-            ->assertReply('I deleted the site https://example.com. You\'re no longer monitoring it.');
+            ->assertReply(trans('ohdear.sites.deleted'));
 
         $this->assertNull(app(OhDear::class)->findSiteByUrl('https://example.com'));
     }
