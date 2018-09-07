@@ -39,16 +39,16 @@ class ShowController extends Controller
         if ($links->isEmpty()) {
             $bot->reply(trans('ohdear.brokenlinks.perfect'));
             
-            return;
+        } else {
+
+            $links->each(function (BrokenLink $link) use ($bot) {
+                $bot->reply(trans('ohdear.brokenlinks.result', [
+                    'url' => $link->crawledUrl,
+                    'code' => $link->statusCode,
+                    'origin' => $link->foundOnUrl
+                ]));
+            });
         }
-        
-        $links->each(function (BrokenLink $link) use ($bot) {
-            $bot->reply(trans('ohdear.brokenlinks.result', [
-                'url' => $link->crawledUrl,
-                'code' => $link->statusCode,
-                'origin' => $link->foundOnUrl
-            ]));
-        });
 
         $bot->reply($site->getKeyboard());
     }

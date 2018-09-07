@@ -39,7 +39,7 @@ class Site extends \OhDear\PhpSdk\Resources\Site
 
     public function getKeyboard()
     {
-        return (new Question('Actions'))
+        return (new Question(trans('ohdear.sites.next_action')))
             ->addButtons([
                 Button::create('Uptime')->value("/uptime {$this->id}"),
                 Button::create('Downtime')->value("/downtime {$this->id}"),

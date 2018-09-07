@@ -37,16 +37,15 @@ class ShowController extends Controller
 
         if ($mixedContent->isEmpty()) {
             $bot->reply(trans('ohdear.mixedcontent.perfect'));
+        } else {
 
-            return;
+            $mixedContent->each(function (MixedContent $mixed) use ($bot) {
+                $bot->reply(trans('ohdear.mixedcontent.result', [
+                    'url' => $mixed->mixedContentUrl,
+                    'origin' => $mixed->foundOnUrl,
+                ]));
+            });
         }
-
-        $mixedContent->each(function (MixedContent $mixed) use ($bot) {
-            $bot->reply(trans('ohdear.mixedcontent.result', [
-                'url' => $mixed->mixedContentUrl,
-                'origin' => $mixed->foundOnUrl,
-            ]));
-        });
 
         $bot->reply($site->getKeyboard());
     }

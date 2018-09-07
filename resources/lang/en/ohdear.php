@@ -13,6 +13,7 @@ return [
         'delete_confirm_2' => 'I\'ll proceed to delete the site *https://example.com*. Are you totally sure you want to continue?',
         'delete_cancel' => 'Alright, we will keep monitoring the site a bit longer 🙂',
         'deleted' => 'I deleted the site. You\'re no longer monitoring it.',
+        'next_action' => 'What do you want to do next?',
     ],
     'token' => [
         'question' => 'I see you have no token configured, can you send it to me? I\'ll save it encrypted don\'t worry.',

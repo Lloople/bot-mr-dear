@@ -7,7 +7,7 @@ class Check extends \OhDear\PhpSdk\Resources\Check
 
     public function getResultAsIcon()
     {
-        return $this->isSuccess() ? "✅" : "🔴";
+        return $this->isFailed() ? "🔴" : "✅";
     }
 
     public function getTypeAsTitle()
@@ -20,5 +20,10 @@ class Check extends \OhDear\PhpSdk\Resources\Check
     private function isSuccess()
     {
         return $this->latestsRunResult === 'succeeded';
+    }
+
+    private function isFailed()
+    {
+        return $this->latestsRunResult === 'failed';
     }
 }

@@ -11,6 +11,7 @@ use App\OhDear\MixedContent;
 use App\OhDear\Site;
 use App\OhDear\Uptime;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\ValidationException;
 use OhDear\PhpSdk\Exceptions\NotFoundException;
 use OhDear\PhpSdk\MakesHttpRequests;
 
@@ -18,7 +19,7 @@ class OhDear
 {
 
     use MakesHttpRequests;
-    
+
     /** @var \OhDear\PhpSdk\OhDear */
     private $ohDear;
 
@@ -56,19 +57,26 @@ class OhDear
     {
         try {
 
-            if (! Str::validate_url($url)) {
-                return $this->ohDear->sites()->first(function (Site $site) use ($url) {
-                    return stripos($site->url, $url) !== false;
-                }, function () { throw new NotFoundException(); });
-            }
+            $site = Str::validate_url($url)
+                ? $this->get("sites/url/{$url}")
+                : $this->searchSiteByUrl($url);
 
-            return new Site($this->get("sites/url/{$url}"));
+            return new Site($site, $this);
 
         } catch (NotFoundException $e) {
 
             return null;
 
         }
+    }
+
+    private function searchSiteByUrl(string $url)
+    {
+        return $this->ohDear->sites()->first(function (Site $site) use ($url) {
+            return stripos($site->url, $url) !== false;
+        }, function () {
+            throw new NotFoundException();
+        });
     }
 
     /**
@@ -81,22 +89,15 @@ class OhDear
     {
         try {
             if (is_numeric($id)) {
-
                 $site = $this->get("sites/{$id}");
-
             } elseif (! Str::validate_url($id)) {
-
-                $site = $this->ohDear->sites()->first(function (Site $site) use ($id) {
-                    return stripos($site->url, $id) !== false;
-                }, function () { throw new NotFoundException(); });
-
+                $site = $this->searchSiteByUrl($id);
             } else {
-
                 $site = $this->get("sites/url/{$id}");
-
             }
 
             return new Site($site, $this);
+
         } catch (NotFoundException $e) {
 
             throw new SiteNotFoundException();
@@ -111,13 +112,13 @@ class OhDear
 
     public function getSiteDowntime($siteId)
     {
-        return $this->collect($this->get("sites/{$siteId}/downtime{$this->getDefaultStartedEndedFilter()}"),
+        return $this->collect($this->get("sites/{$siteId}/downtime{$this->getDefaultStartedEndedFilter()}")['data'],
             Downtime::class);
     }
 
     public function getSiteUptime($siteId)
     {
-        return $this->collect($this->get("sites/{$siteId}/uptime{$this->getDefaultStartedEndedFilter()}")['data'],
+        return $this->collect($this->get("sites/{$siteId}/uptime{$this->getDefaultStartedEndedFilter()}&split=day"),
             Uptime::class);
     }
 

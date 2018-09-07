@@ -37,22 +37,21 @@ class ShowController extends Controller
 
         if ($downtime->isEmpty()) {
             $bot->reply(trans('ohdear.downtime.perfect'));
+        } else {
 
-            return;
-        }
-
-        $bot->reply(trans('ohdear.downtime.summary', [
-            'elapsed' => $downtime->first()->elapsed,
-            'emoji' => $downtime->first()->getElapsedEmoji(),
-        ]));
-
-        $downtime->each(function (Downtime $downtime) use ($bot) {
-
-            $bot->reply(trans('ohdear.downtime.result', [
-                'downtime' => $downtime->getDowntime(),
-                'date' => $downtime->startedAt,
+            $bot->reply(trans('ohdear.downtime.summary', [
+                'elapsed' => $downtime->first()->elapsed,
+                'emoji' => $downtime->first()->getElapsedEmoji(),
             ]));
-        });
+
+            $downtime->each(function (Downtime $downtime) use ($bot) {
+
+                $bot->reply(trans('ohdear.downtime.result', [
+                    'downtime' => $downtime->getDowntime(),
+                    'date' => $downtime->startedAt,
+                ]));
+            });
+        }
 
         $bot->reply($site->getKeyboard());
     }
