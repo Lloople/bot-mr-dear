@@ -4,6 +4,9 @@ See this helping message 🙂.
 /sites
 See a quick list of all your sites and the most recent status of each one.
 
+*/token {token}*
+Register your token to interact with OhDear. You can add a new token here https://ohdear.app/user-settings/api.
+
 */newsite {url}*
 Register a new site on your account. It must be a valid url with protocol and all those things that are hard to type from a phone keyboard 😛.
 
