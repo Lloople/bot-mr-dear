@@ -4,6 +4,8 @@ $botman = resolve('botman');
 
 $botman->middleware->received(new \App\Http\Middleware\LoadUserMiddleware());
 
+$botman->hears('/help', \App\Http\Controllers\Help\ShowController::class);
+
 $botman->hears('/start', \App\Http\Controllers\Users\StoreController::class);
 $botman->hears('/token {token}', \App\Http\Controllers\Token\StoreController::class);
 

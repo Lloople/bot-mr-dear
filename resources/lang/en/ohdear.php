@@ -26,7 +26,7 @@ return [
     ],
     'downtime' => [
         'result' => 'Your website was down for :downtime on :date',
-        'perfect' => 'Your site was up all the time during this period! 🎉',
+        'perfect' => 'Your site was up all the time during the last month! 🎉',
         'summary' => 'The last time your site was down was :elapsed ago :emoji'
     ],
     'brokenlinks' => [
@@ -36,5 +36,8 @@ return [
     'mixedcontent' => [
         'perfect' => 'Your site has no mixed content! 🙌',
         'result' => ':url'.PHP_EOL.'Was found on :origin'
+    ],
+    'help' => [
+        'title' => 'Looks like you\'re a bit lost, let me help you out 😉'
     ]
 ];
