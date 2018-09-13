@@ -11,6 +11,13 @@ use Tests\TestCase;
 class SitesTest extends TestCase
 {
 
+    const EXAMPLE_SITE_RESPONSE = '✅ example.com'
+    .PHP_EOL.'✅ Uptime'
+    .PHP_EOL.'✅ Broken Links'
+    .PHP_EOL.'✅ Mixed Content'
+    .PHP_EOL.'✅ Certificate Health'
+    .PHP_EOL.'✅ Certificate Transparency';
+
     use RefreshDatabase;
 
     /** @test */
@@ -54,28 +61,30 @@ class SitesTest extends TestCase
     public function can_show_a_site()
     {
         $this->bot->receives('/site https://example.com')
-            ->assertReply('✅ example.com');
+            ->assertReply(self::EXAMPLE_SITE_RESPONSE);
     }
 
     /** @test */
     public function emoji_change_if_site_is_down()
     {
         $this->bot->receives('/site http://failed.example.com')
-            ->assertReply('🔴 failed.example.com');
+            ->assertReply('🔴 failed.example.com'
+                    .PHP_EOL.'🔴 Uptime'
+                    .PHP_EOL.'✅ Broken Links');
     }
 
     /** @test */
     public function can_show_a_site_by_domain()
     {
         $this->bot->receives('/site example')
-            ->assertReply('✅ example.com');
+            ->assertReply(self::EXAMPLE_SITE_RESPONSE);
     }
 
     /** @test */
     public function can_show_a_site_by_id()
     {
         $this->bot->receives('/site 9999')
-            ->assertReply('✅ example.com');
+            ->assertReply(self::EXAMPLE_SITE_RESPONSE);
     }
 
     /** @test */
