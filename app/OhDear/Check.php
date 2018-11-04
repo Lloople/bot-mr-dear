@@ -19,11 +19,11 @@ class Check extends \OhDear\PhpSdk\Resources\Check
 
     private function isSuccess()
     {
-        return $this->latestsRunResult === 'succeeded';
+        return $this->latestRunResult === 'succeeded';
     }
 
     private function isFailed()
     {
-        return $this->latestsRunResult === 'failed';
+        return $this->latestRunResult === 'failed';
     }
 }

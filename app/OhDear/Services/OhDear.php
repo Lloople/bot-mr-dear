@@ -69,9 +69,9 @@ class OhDear
         }
     }
 
-    private function searchSiteByUrl(string $url)
+    private function searchSiteByUrl(string $url): Site
     {
-        return $this->ohDear->sites()->first(function (Site $site) use ($url) {
+        return $this->sites()->first(function (Site $site) use ($url) {
             return stripos($site->url, $url) !== false;
         }, function () {
             throw new NotFoundException();
@@ -88,14 +88,12 @@ class OhDear
     {
         try {
             if (is_numeric($id)) {
-                $site = $this->get("sites/{$id}");
-            } elseif (! Str::validate_url($id)) {
-                $site = $this->searchSiteByUrl($id);
-            } else {
-                $site = $this->get("sites/url/{$id}");
+                return new Site($this->get("sites/{$id}"), $this);
+            } elseif (Str::validate_url($id)) {
+                return new Site($this->get("sites/url/{$id}"), $this);
             }
 
-            return new Site($site, $this);
+            return $this->searchSiteByUrl($id);
 
         } catch (NotFoundException $e) {
 
