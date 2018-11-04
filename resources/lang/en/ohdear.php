@@ -42,6 +42,8 @@ return [
     ],
     'webhook' => [
         'question' => 'I see you have no webhook configured. This is required if you want me to warn you if any of your sites have any issue. You can find your webhook secret in the bottom of the [Notifications](https://ohdear.app/team-settings/notifications) section.',
-        'stored' => 'Remember to add the url :url to your [OhDear Notifications](https://ohdear.app/team-settings/notifications). I\'ll let you know if any of your sites has any problem 👍'
+        'stored' => 'Remember to add the url :url to your [OhDear Notifications](https://ohdear.app/team-settings/notifications). I\'ll let you know if any of your sites has any problem 👍',
+        'uptime_check_failed' => '😱 Hey! your site :url seems down!',
+        'broken_links_found' => '⚠️ Whoops, we found broken links in your site :url'
     ]
 ];

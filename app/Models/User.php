@@ -29,4 +29,9 @@ class User extends Authenticatable
     {
         return decrypt($this->token);
     }
+
+    public function getRouteKeyName()
+    {
+        return 'username';
+    }
 }
