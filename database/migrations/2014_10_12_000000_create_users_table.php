@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->text('token')->nullable();
+            $table->text('webhook')->nullable();
             $table->string('username')->nullable();
             $table->string('surname')->nullable();
             $table->string('telegram_id')->nullable();

@@ -11,7 +11,6 @@ use App\OhDear\MixedContent;
 use App\OhDear\Site;
 use App\OhDear\Uptime;
 use Illuminate\Support\Collection;
-use Illuminate\Validation\ValidationException;
 use OhDear\PhpSdk\Exceptions\NotFoundException;
 use OhDear\PhpSdk\MakesHttpRequests;
 
