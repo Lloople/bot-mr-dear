@@ -24,9 +24,7 @@ class LoadUserMiddleware implements Received
     {
         $botUser = $bot->getDriver()->getUser($message);
 
-        $user = User::firstOrCreate([
-            'telegram_id' => $botUser->getId(),
-        ], [
+        $user = User::firstOrCreate(['telegram_id' => $botUser->getId()], [
             'name' => $botUser->getFirstName() ?? $botUser->getId(),
             'surname' => $botUser->getLastName(),
             'username' => $botUser->getUsername(),

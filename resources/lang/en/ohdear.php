@@ -41,6 +41,9 @@ return [
         'title' => 'Looks like you\'re a bit lost, let me help you out 😉'
     ],
     'webhook' => [
+        'question' => 'I see you have no webhook configured. This is required if you want me to warn you if any of your sites have any issue. You can find your webhook secret in the bottom of the [Notifications](https://ohdear.app/team-settings/notifications) section.',
+        'already_exists' => 'You already have a webhook secret defined. Just to be sure, use /webhook {secret} if you want to change it',
         'stored' => 'I\'ll let you know if any of your sites has any problem 👍'
+
     ]
 ];
