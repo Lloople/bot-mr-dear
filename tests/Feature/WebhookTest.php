@@ -14,12 +14,9 @@ class WebhookTest extends TestCase
     /** @test */
     public function can_configure_user_webhook()
     {
-        $this->bot->receives('/webhook 123456')
-            ->assertReply(trans('ohdear.webhook.stored'));
+        $this->bot->receives('/webhook secret');
 
-        $user = User::first();
-
-        $this->assertEquals('123456', decrypt($user->webhook));
+        $this->assertEquals('secret', decrypt(User::first()->webhook));
     }
 
 }
