@@ -38,7 +38,10 @@ class StartConversation extends Conversation
             auth()->user()->webhook = encrypt($answer->getText());
             auth()->user()->save();
 
-            $this->bot->reply(trans('ohdear.webhook.stored'), ['parse_mode' => 'Markdown']);
+            $this->bot->reply(
+                trans('ohdear.webhook.stored', ['url' => auth()->user()->getWebhookUrl()]),
+                ['parse_mode' => 'Markdown']
+            );
         }, ['parse_mode' => 'Markdown']);
     }
 

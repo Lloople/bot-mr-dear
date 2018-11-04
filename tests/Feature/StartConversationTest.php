@@ -20,10 +20,11 @@ class StartConversationTest extends TestCase
             ->receives('tokensecret')
             ->assertReply(trans('ohdear.token.stored'))
             ->assertReply(trans('ohdear.webhook.question'))
-            ->receives('webhooksecret')
-            ->assertReply(trans('ohdear.webhook.stored'));
+            ->receives('webhooksecret');
 
         $user = User::first();
+
+        $this->bot->assertReply(trans('ohdear.webhook.stored', ['url' => $user->getWebhookUrl()]));
 
         $this->assertNotEquals('tokensecret', $user->token);
         $this->assertEquals('tokensecret', decrypt($user->token));

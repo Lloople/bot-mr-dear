@@ -34,4 +34,9 @@ class User extends Authenticatable
     {
         return 'username';
     }
+
+    public function getWebhookUrl()
+    {
+        return url('webhook') . '/' . auth()->user()->username;
+    }
 }
