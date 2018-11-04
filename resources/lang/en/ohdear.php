@@ -2,6 +2,7 @@
 
 return [
     'greetings' => 'Hello there! 👋',
+    'already_set_up' => 'You have completed the setup already. If you need to change any of your configuration, use /token {token} or /webhook {secret}.',
     'sites' => [
         'list_message' => 'Choose a site to interact with.',
         'list_empty' => 'There are no sites on your account. Perhaps you want to add a new one right now? use the command /newsite',
@@ -17,7 +18,6 @@ return [
     ],
     'token' => [
         'question' => 'I see you have no token configured, can you send it to me? I\'ll save it encrypted don\'t worry.',
-        'already_exists' => 'You already have a token defined. Just to be sure, use /token {token} if you want to change it',
         'stored' => 'Thank you for trusting me! You can delete the token message now for more security',
     ],
     'uptime' => [
@@ -42,8 +42,6 @@ return [
     ],
     'webhook' => [
         'question' => 'I see you have no webhook configured. This is required if you want me to warn you if any of your sites have any issue. You can find your webhook secret in the bottom of the [Notifications](https://ohdear.app/team-settings/notifications) section.',
-        'already_exists' => 'You already have a webhook secret defined. Just to be sure, use /webhook {secret} if you want to change it',
-        'stored' => 'I\'ll let you know if any of your sites has any problem 👍'
-
+        'stored' => 'Remember to add the url '.url('webhook').' to your [OhDear Notifications](https://ohdear.app/team-settings/notifications). I\'ll let you know if any of your sites has any problem 👍'
     ]
 ];

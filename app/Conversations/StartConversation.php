@@ -14,13 +14,7 @@ class StartConversation extends Conversation
         if (! auth()->user()->token) {
             $this->askToken();
         } else {
-            $this->bot->reply(trans('ohdear.token.already_exists'));
-        }
-
-        if (! auth()->user()->webhook) {
-            $this->askWebhook();
-        } else {
-            $this->bot->reply(trans('ohdear.webhook.already_exists'));
+            $this->bot->reply(trans('ohdear.already_set_up'));
         }
     }
 
@@ -32,6 +26,8 @@ class StartConversation extends Conversation
             auth()->user()->save();
 
             $this->bot->reply(trans('ohdear.token.stored'));
+
+            $this->askWebhook();
         });
     }
 
@@ -42,8 +38,8 @@ class StartConversation extends Conversation
             auth()->user()->webhook = encrypt($answer->getText());
             auth()->user()->save();
 
-            $this->bot->reply(trans('ohdear.webhook.stored'));
-        });
+            $this->bot->reply(trans('ohdear.webhook.stored'), ['parse_mode' => 'Markdown']);
+        }, ['parse_mode' => 'Markdown']);
     }
 
 }

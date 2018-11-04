@@ -31,4 +31,15 @@ class StartConversationTest extends TestCase
         $this->assertNotEquals('webhooksecret', $user->webhook);
         $this->assertEquals('webhooksecret', decrypt($user->webhook));
     }
+
+    /** @test */
+    public function start_command_does_not_work_if_its_already_configured()
+    {
+        factory(User::class)->create(['telegram_id' => 'ohdearapp', 'token' => '123']);
+
+        $this->bot->setUser(['id' => 'ohdearapp'])
+            ->receives('/start')
+            ->assertReply(trans('ohdear.greetings'))
+            ->assertReply(trans('ohdear.already_set_up'));
+    }
 }

@@ -11,7 +11,7 @@ class HelpTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function can_answer_With_a_help_message()
+    public function can_answer_with_a_help_message()
     {
         $this->bot->receives('/help')
             ->assertReply(trans('ohdear.help.title'))
