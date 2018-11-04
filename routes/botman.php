@@ -18,3 +18,4 @@ $botman->hears('/downtime (.*[^\s])', \App\Http\Controllers\Downtime\ShowControl
 $botman->hears('/uptime (.*[^\s])', \App\Http\Controllers\Uptime\ShowController::class);
 $botman->hears('/brokenlinks (.*[^\s])', \App\Http\Controllers\BrokenLinks\ShowController::class);
 $botman->hears('/mixedcontent (.*[^\s])', \App\Http\Controllers\MixedContent\ShowController::class);
+$botman->hears('/webhook (.*)', \App\Http\Controllers\Webhook\StoreController::class);

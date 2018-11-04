@@ -39,5 +39,8 @@ return [
     ],
     'help' => [
         'title' => 'Looks like you\'re a bit lost, let me help you out 😉'
+    ],
+    'webhook' => [
+        'stored' => 'I\'ll let you know if any of your sites has any problem 👍'
     ]
 ];
