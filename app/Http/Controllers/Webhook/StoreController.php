@@ -15,6 +15,9 @@ class StoreController extends Controller
         auth()->user()->webhook = encrypt($secret);
         auth()->user()->save();
 
-        $bot->reply(trans('ohdear.webhook.stored', ['url' => auth()->user()->getWebhookUrl()]));
+        $bot->reply(
+            trans('ohdear.webhook.stored', ['url' => auth()->user()->getWebhookUrl()]),
+            ['parse_mode' => 'Markdown']
+        );
     }
 }
