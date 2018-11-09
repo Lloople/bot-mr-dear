@@ -17,7 +17,13 @@ class WebhookReceivedController extends Controller
             throw WebhookException::missingSignature();
         }
 
-        if (decrypt($user->webhook) !== $signature) {
+        if (! $user->webhook) {
+            throw WebhookException::signingSecretNotSet();
+        }
+
+        $computedSignature = hash_hmac('sha256', $request->getContent(), decrypt($user->webhook));
+
+        if (! hash_equals($signature, $computedSignature)) {
             throw WebhookException::invalidSignature($signature);
         }
 

@@ -14,7 +14,12 @@ class WebhookException extends Exception
 
     public static function invalidSignature($signature)
     {
-        return new static("The signature `{$signature}` found in the header named `OhDear-Signature` is invalid. Make sure that the `ohdear-webhooks.signing_secret` config key is set to the value you found on the OhDear dashboard. If you are caching your config try running `php artisan clear:cache` to resolve the problem.");
+        return new static("The signature `{$signature}` found in the header named `OhDear-Signature` is invalid. Make sure that the use has configured the webhook field to the value you on the OhDear dashboard.");
+    }
+
+    public static function signingSecretNotSet()
+    {
+        return new static('The OhDear webhook signing secret is not set. Make sure that the user has configured the webhook field to the value on the OhDear dashboard.');
     }
 
     public static function missingType()
