@@ -35,10 +35,11 @@ class BrokenLinksFound implements ShouldQueue
         $this->botman->say(
             trans('ohdear.webhook.broken_links_found', ['url' => $this->payload->site->url]),
             $this->user->telegram_id,
-            TelegramDriver::class
+            TelegramDriver::class,
+            ['disable_web_page_preview' => true]
         );
 
-        foreach ($this->payload->run->result_payload as $brokenLink) {
+        foreach ($this->payload->run->result_payload->broken_links as $brokenLink) {
             $this->reportBrokenLink($brokenLink);
         }
     }
@@ -48,7 +49,11 @@ class BrokenLinksFound implements ShouldQueue
         $this->botman->say(trans('ohdear.brokenlinks.result', [
             'url' => $link->crawled_url,
             'code' => $link->status_code,
-            'origin' => $link->found_on_url
-        ]), $this->user->telegram_id, TelegramDriver::class);
+            'origin' => $link->found_on_url,
+        ]),
+            $this->user->telegram_id,
+            TelegramDriver::class,
+            ['disable_web_page_preview' => true]
+        );
     }
 }

@@ -46,7 +46,7 @@ class ShowController extends Controller
                     'url' => $link->crawledUrl,
                     'code' => $link->statusCode,
                     'origin' => $link->foundOnUrl
-                ]));
+                ]), ['disable_web_page_preview' => true]);
             });
         }
 

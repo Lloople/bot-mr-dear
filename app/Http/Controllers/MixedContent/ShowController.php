@@ -43,7 +43,7 @@ class ShowController extends Controller
                 $bot->reply(trans('ohdear.mixedcontent.result', [
                     'url' => $mixed->mixedContentUrl,
                     'origin' => $mixed->foundOnUrl,
-                ]));
+                ]), ['disable_web_page_preview' => true]);
             });
         }
 
