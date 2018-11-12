@@ -38,8 +38,7 @@ With this key configured, the bot can warn you if there's any problem with your 
 This bot is currently functional at [MrDear_bot](http://t.me/MrDear_bot) on Telegram, so you don't have to do anything to
 get up and running.
 
-However, there's a chance you want to host it yourself to ensure your token is not stored in someone else's database. If that's
-your case, just follow the few steps described below.
+However, there's a chance you want to host it yourself. If that's your case, just follow the few steps described below.
 
 ```
 composer install
@@ -58,18 +57,18 @@ Telegram needs to send the incoming messages to your bot. In order to configure 
 php artisan botman:telegram:register
 ```
 
-The default url will be `yourdomain.com/botman`. It must `HTTPS`
+The default url will be `yourdomain.com/botman`. It must be `HTTPS`
 
-> If you're developing in a local environment, take in mind using Laravel Valet feature `valet share`. It uses ngrok
+> If you're developing in a local environment, take in mind using [Laravel Valet](https://laravel.com/docs/5.7/valet) feature `valet share`. It uses ngrok
 > under the hood to make your project accessible from the outside. 
 
-That's it. You can now talk to your bot.
+That's it. You can now talk to your bot through Telegram.
 
 ### Troubleshooting
 
-If your is not running as you've expected you have a few tools to see what's going on:
+If your is not running as you've expected you have a few tools to help you see what's going on:
 
-- If you're using `valet share` for local development you already have a custom dashboard to check incoming requests at http://127.0.0.1:4040
+- If you're using `valet share` for local development you already have a custom dashboard to check incoming requests at http://127.0.0.1:4040 by ngrok.
 - To see the full error, check the `storage/logs/laravel.log` file. Take in mind that Telegram re-sends a failed request up to 4 more times.
 - To debug the application, you can use [Beyond Code](https://github.com/beyondcode) package called `laravel-dump-server`. It's already installed
 in this project, you just need to run `php artisan dump-server` and put some `dump($var)` in your code to see it in the terminal.
